@@ -1,6 +1,6 @@
 defmodule Tunez.Music do
-  use Ash.Domain,
-    otp_app: :tunez
+  use Ash.Domain, otp_app: :tunez, extensions: [AshPhoenix]
+  # AshPhoenix extension will autogen form_to_create_artist, form_to_...
 
   resources do
     resource Tunez.Music.Artist do

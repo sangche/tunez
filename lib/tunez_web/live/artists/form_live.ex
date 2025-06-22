@@ -2,7 +2,8 @@ defmodule TunezWeb.Artists.FormLive do
   use TunezWeb, :live_view
 
   def mount(_params, _session, socket) do
-    form = AshPhoenix.Form.for_create(Tunez.Music.Artist, :create)
+    # form = AshPhoenix.Form.for_create(Tunez.Music.Artist, :create)
+    form = Tunez.Music.form_to_create_artist()
 
     socket =
       socket
