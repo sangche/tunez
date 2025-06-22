@@ -1,6 +1,18 @@
 defmodule TunezWeb.Artists.FormLive do
   use TunezWeb, :live_view
 
+  def mount(%{"id" => artist_id}, _session, socket) do
+    artist = Tunez.Music.get_artist_by_id!(artist_id)
+    form = Tunez.Music.form_to_update_artist(artist)
+
+    socket =
+      socket
+      |> assign(:form, to_form(form))
+      |> assign(:page_title, "Update Artist")
+
+    {:ok, socket}
+  end
+
   def mount(_params, _session, socket) do
     # form = AshPhoenix.Form.for_create(Tunez.Music.Artist, :create)
     form = Tunez.Music.form_to_create_artist()
@@ -38,7 +50,12 @@ defmodule TunezWeb.Artists.FormLive do
     """
   end
 
-  def handle_event("validate", %{"form" => _form_data}, socket) do
+  def handle_event("validate", %{"form" => form_data}, socket) do
+    socket =
+      update(socket, :form, fn form ->
+        AshPhoenix.Form.validate(form, form_data)
+      end)
+
     {:noreply, socket}
   end
 
