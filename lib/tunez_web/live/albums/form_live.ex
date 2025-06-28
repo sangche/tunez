@@ -120,6 +120,8 @@ defmodule TunezWeb.Albums.FormLive do
   end
 
   def handle_event("save", %{"form" => form_data}, socket) do
+    # artist_id is required for New Album, but not for Update Elbum.
+    # In case of Update Elbum, artist_id is discarded by changeset cast anyway.
     form_data = Map.put(form_data, "artist_id", socket.assigns.artist.id)
 
     case AshPhoenix.Form.submit(socket.assigns.form, params: form_data) do
