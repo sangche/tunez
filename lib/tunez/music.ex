@@ -1,5 +1,12 @@
 defmodule Tunez.Music do
   use Ash.Domain, otp_app: :tunez, extensions: [AshPhoenix]
+
+  # we can customize only the form_to_create_album action by using the forms3 DSL,
+  # from the AshPhoenix domain extension. see page 41
+  forms do
+    form :create_album, args: [:artist_id]
+  end
+
   # AshPhoenix extension will autogen form_to_create_artist, form_to_...
 
   resources do
