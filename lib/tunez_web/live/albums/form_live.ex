@@ -120,7 +120,7 @@ defmodule TunezWeb.Albums.FormLive do
   end
 
   def handle_event("save", %{"form" => form_data}, socket) do
-    # no more need below line because artist_id is already in the form
+    # no more need below line because artist_id is already in the form for both New and Update.
     # form_data = Map.put(form_data, "artist_id", socket.assigns.artist.id)
 
     case AshPhoenix.Form.submit(socket.assigns.form, params: form_data) do
