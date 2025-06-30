@@ -25,6 +25,9 @@ defmodule Tunez.Music.Artist do
   end
 
   relationships do
-    has_many :albums, Tunez.Music.Album
+    has_many :albums, Tunez.Music.Album do
+      # page 45
+      sort year_released: :desc
+    end
   end
 end
