@@ -19,3 +19,10 @@ defmodule Tunez.Repo.Migrations.AddUniqueAlbumNamesPerArtist do
                    )
   end
 end
+
+# to apply, 'mix ash.migrate'
+
+# Create an album
+# with a specific name, and then try to create another one for the same artist
+# with the same name — you should get a validation error on the name field,
+# with the message we specified for the identity.
