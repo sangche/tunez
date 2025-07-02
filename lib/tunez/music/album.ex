@@ -53,10 +53,6 @@ defmodule Tunez.Music.Album do
 
     create_timestamp :inserted_at
     update_timestamp :updated_at
-
-    attribute :previous_names, {:array, :string} do
-      default []
-    end
   end
 
   relationships do
