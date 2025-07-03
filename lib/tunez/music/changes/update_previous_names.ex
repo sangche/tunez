@@ -4,6 +4,16 @@ defmodule Tunez.Music.Changes.UpdatePreviousNames do
   # should be wrapped in hooks such as Ash.Changeset.before_action or Ash.Changeset.after_action.
   # See page 56 of PDF book
 
+  # [warning] Changeset has already been validated for action :update.
+  # For safety, we prevent any changes after that point because they will bypass validations or other action logic.. To proceed anyway,
+  # you can use `force_change_attribute/3`. However, you should prefer a pattern like the below, which makes
+  # any custom changes *before* calling the action.
+
+  # Resource
+  # |> Ash.Changeset.new()
+  # |> Ash.Changeset.change_attribute(...)
+  # |> Ash.Changeset.for_create(...)
+
   @impl true
   def change(changeset, _opts, _context) do
     Ash.Changeset.before_action(changeset, fn changeset ->
