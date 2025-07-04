@@ -1,0 +1,8 @@
+{
+    "files.exclude": {
+      "**/_build": false,
+      "**/deps": false,
+      "**/priv/static": false,
+      "**/.elixir_ls": true
+    }
+  }

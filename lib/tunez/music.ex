@@ -27,3 +27,64 @@ defmodule Tunez.Music do
     end
   end
 end
+
+# test
+# iex(0)> Tunez.Music.search_artists("vio")
+
+# iex(1)> require Ash.Query
+# Ash.Query
+
+# General way of query:
+#
+# iex(2)> Ash.Query.filter(Tunez.Music.Album, year_released == 2024)
+# #Ash.Query<resource: Tunez.Music.Album,
+#  filter: #Ash.Filter<year_released == 2024>>
+# iex(3)> |> Ash.read()
+# [debug] QUERY OK source="albums" db=49.0ms decode=5.7ms queue=69.3ms idle=186.6ms
+# SELECT a0."id", a0."name", a0."artist_id", a0."inserted_at", a0."updated_at", a0."year_released", a0."cover_image_url" FROM "albums" AS a0 WHERE (a0."year_released"::bigint = $1::bigint) [2024]
+# ↳ anonymous fn/3 in AshPostgres.DataLayer.run_query/2, at: lib/data_layer.ex:788
+# {:ok,
+#  [
+#    %Tunez.Music.Album{
+#      id: "141c0e42-c630-4d71-92d4-cfe8d91a5ce4",
+#      name: "Eternal Tides",
+#      year_released: 2024,
+#      cover_image_url: "/images/albums/crystal_cove_eternal_tides.png",
+#      inserted_at: ~U[2025-06-28 07:07:41.212758Z],
+#      updated_at: ~U[2025-06-28 07:07:41.212758Z],
+#      artist_id: "6013c9c7-9218-40cd-9f1d-8e23817c2f82",
+#      artist: #Ash.NotLoaded<:relationship, field: :artist>,
+#      __meta__: #Ecto.Schema.Metadata<:loaded, "albums">
+#    }
+#  ]}
+
+# To use :search action defined in Artist resouce:
+
+# iex(4)> Tunez.Music.Artist
+# Tunez.Music.Artist
+# iex(5)> |> Ash.Query.for_read(:search, %{query: "co"})
+# #Ash.Query<
+#   resource: Tunez.Music.Artist,
+#   action: :search,
+#   arguments: %{query: #Ash.CiString<"co">},
+#   filter: #Ash.Filter<contains(name, #Ash.CiString<"co">)>
+# >
+# iex(6)> |> Ash.read()
+# [debug] QUERY OK source="artists" db=53.2ms queue=20.1ms idle=772.6ms
+# SELECT a0."id", a0."name", a0."biography", a0."inserted_at", a0."updated_at", a0."previous_names" FROM "artists" AS a0 WHERE (a0."name"::text ILIKE $1) ["%co%"]
+# ↳ anonymous fn/3 in AshPostgres.DataLayer.run_query/2, at: lib/data_layer.ex:788
+# {:ok,
+#  [
+#    %Tunez.Music.Artist{
+#      id: "6013c9c7-9218-40cd-9f1d-8e23817c2f82",
+#      name: "Crystal Cove",
+#      biography: "Born from the salty air of the Bahamas, Crystal Cove was founded in 2011 by a group of musicians who shared a passion for the high seas and pirate lore. Their music, infused with rollicking rhythms and haunting melodies, tells tales of forgotten treasures, fierce battles, and mystical encounters on the ocean's vast expanse. As they toured across coastal cities, their theatrical performances, complete with pirate attire and stage props, captivated audiences and solidified their reputation as the premiere pirate metal band.",
+#      inserted_at: ~U[2025-06-28 07:07:40.832040Z],
+#      updated_at: ~U[2025-06-28 07:07:40.832040Z],
+#      previous_names: [],
+#      albums: #Ash.NotLoaded<:relationship, field: :albums>,
+#      __meta__: #Ecto.Schema.Metadata<:loaded, "artists">
+#    }
+#  ]}
+
+# see PDF 61
