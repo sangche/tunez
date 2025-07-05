@@ -11,6 +11,20 @@ defmodule TunezWeb.Artists.IndexLive do
     {:ok, socket}
   end
 
+  # http://localhost:4000/?q=fur
+  def handle_params(%{"q" => query_text}, _url, socket) do
+    # query_text = Map.get(params, "q", "")
+
+    artists = Tunez.Music.search_artists!(query_text)
+
+    socket =
+      socket
+      |> assign(:query_text, query_text)
+      |> assign(:artists, artists)
+
+    {:noreply, socket}
+  end
+
   def handle_params(_params, _url, socket) do
     artists = Tunez.Music.read_artists!()
 

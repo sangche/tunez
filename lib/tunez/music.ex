@@ -17,6 +17,7 @@ defmodule Tunez.Music do
       define :update_artist, action: :update
       define :destroy_artist, action: :destroy
       define :search_artists, action: :search, args: [:query]
+      define :search_artists2, action: :search
     end
 
     resource Tunez.Music.Album do
@@ -30,6 +31,7 @@ end
 
 # test
 # iex(0)> Tunez.Music.search_artists("vio")
+# iex(0)> Tunez.Music.search_artists2(%{query: "co"}) <-- PDF page 64
 
 # iex(1)> require Ash.Query
 # Ash.Query
