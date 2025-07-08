@@ -33,6 +33,9 @@ defmodule Tunez.Music.Artist do
 
     attribute :name, :string do
       allow_nil? false
+      # to use sort_input, as in Tunez.Music.search_artists("the", [query: [sort_input: "name"]])
+      # PDF page 69
+      public? true
     end
 
     attribute :biography, :string
