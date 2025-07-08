@@ -20,6 +20,7 @@ defmodule TunezWeb.Artists.IndexLive do
     socket =
       socket
       |> assign(:query_text, query_text)
+      |> assign(:sort_by, "inserted_at")
       |> assign(:artists, artists)
 
     {:noreply, socket}
@@ -31,6 +32,7 @@ defmodule TunezWeb.Artists.IndexLive do
     socket =
       socket
       |> assign(:query_text, "")
+      |> assign(:sort_by, "inserted_at")
       |> assign(:artists, artists)
 
     {:noreply, socket}
@@ -41,6 +43,7 @@ defmodule TunezWeb.Artists.IndexLive do
     <Layouts.app {assigns}>
       <.header responsive={false}>
         <.h1>Artists</.h1>
+        <:action><.sort_changer selected={@sort_by} /></:action>
         <:action>
           <.search_box query={@query_text} method="get" data-role="artist-search" phx-submit="search" />
         </:action>
@@ -193,7 +196,7 @@ defmodule TunezWeb.Artists.IndexLive do
   end
 
   def handle_event("search", %{"query" => query}, socket) do
-    params = remove_empty(%{q: query})
+    params = remove_empty(%{q: query, sort_by: socket.assigns.sort_by})
     {:noreply, push_patch(socket, to: ~p"/?#{params}")}
   end
 
