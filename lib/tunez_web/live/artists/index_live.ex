@@ -11,28 +11,16 @@ defmodule TunezWeb.Artists.IndexLive do
     {:ok, socket}
   end
 
-  # http://localhost:4000/?q=fur
-  def handle_params(%{"q" => query_text}, _url, socket) do
-    # query_text = Map.get(params, "q", "")
+  def handle_params(params, _url, socket) do
+    sort_by = Map.get(params, "sort_by") |> validate_sort_by()
+    query_text = Map.get(params, "q", "")
 
     artists = Tunez.Music.search_artists!(query_text)
 
     socket =
       socket
       |> assign(:query_text, query_text)
-      |> assign(:sort_by, "inserted_at")
-      |> assign(:artists, artists)
-
-    {:noreply, socket}
-  end
-
-  def handle_params(_params, _url, socket) do
-    artists = Tunez.Music.read_artists!()
-
-    socket =
-      socket
-      |> assign(:query_text, "")
-      |> assign(:sort_by, "inserted_at")
+      |> assign(:sort_by, sort_by)
       |> assign(:artists, artists)
 
     {:noreply, socket}
@@ -176,6 +164,8 @@ defmodule TunezWeb.Artists.IndexLive do
     ]
   end
 
+  # Validate the sort_by parameter to ensure it matches one of the options
+  # If it doesn't, default to the first option.
   def validate_sort_by(key) do
     valid_keys = Enum.map(sort_options(), &elem(&1, 1))
 
