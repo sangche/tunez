@@ -33,15 +33,16 @@ defmodule Tunez.Music.Artist do
 
     attribute :name, :string do
       allow_nil? false
-      # to use sort_input, as in Tunez.Music.search_artists("the", [query: [sort_input: "name"]])
       # PDF page 69
+      # to use sort_input.
+      # example: Tunez.Music.search_artists("the", [query: [sort_input: "name"]])
       public? true
     end
 
     attribute :biography, :string
 
-    create_timestamp :inserted_at
-    update_timestamp :updated_at
+    create_timestamp :inserted_at, public?: true
+    update_timestamp :updated_at, public?: true
 
     attribute :previous_names, {:array, :string} do
       default []

@@ -15,7 +15,7 @@ defmodule TunezWeb.Artists.IndexLive do
     sort_by = Map.get(params, "sort_by") |> validate_sort_by()
     query_text = Map.get(params, "q", "")
 
-    artists = Tunez.Music.search_artists!(query_text)
+    artists = Tunez.Music.search_artists!(query_text, query: [sort_input: sort_by])
 
     socket =
       socket
@@ -158,8 +158,8 @@ defmodule TunezWeb.Artists.IndexLive do
 
   defp sort_options do
     [
-      {"recently updated", "updated_at"},
-      {"recently added", "inserted_at"},
+      {"recently updated", "-updated_at"},
+      {"recently added", "-inserted_at"},
       {"name", "name"}
     ]
   end
