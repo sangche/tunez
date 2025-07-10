@@ -21,7 +21,7 @@ defmodule TunezWeb.Artists.IndexLive do
       socket
       |> assign(:query_text, query_text)
       |> assign(:sort_by, sort_by)
-      |> assign(:artists, artists)
+      |> assign(:artists, artists.results)
 
     {:noreply, socket}
   end
