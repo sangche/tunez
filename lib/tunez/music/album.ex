@@ -61,6 +61,18 @@ defmodule Tunez.Music.Album do
     end
   end
 
+  # PDF 75
+  # iex(1)> Tunez.Music.get_artist_by_id("082b0b45-8c4a-459f-8d15-85ba026c9442", load: [albums: [:years_ago]])
+  # iex(2)> Tunez.Music.get_artist_by_id("082b0b45-8c4a-459f-8d15-85ba026c9442", load: [albums: [:string_years_ago]])
+  # iex(3)> Tunez.Music.get_artist_by_id("082b0b45-8c4a-459f-8d15-85ba026c9442", load: [albums: [:years_ago, :artist]])
+  calculations do
+    calculate :years_ago, :integer, expr(2025 - year_released)
+
+    calculate :string_years_ago,
+              :string,
+              expr("wow, this was released " <> years_ago <> " years ago!")
+  end
+
   # book page 48. need to ash.codegen migrantion
   identities do
     identity :unique_album_names_per_artist, [:name, :artist_id],

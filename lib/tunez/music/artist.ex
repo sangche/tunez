@@ -58,4 +58,8 @@ defmodule Tunez.Music.Artist do
       sort year_released: :desc
     end
   end
+
+  calculations do
+    calculate :album_count, :integer, expr(count(albums))
+  end
 end
