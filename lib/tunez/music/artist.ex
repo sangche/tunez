@@ -19,8 +19,8 @@ defmodule Tunez.Music.Artist do
 
       filter expr(contains(name, ^arg(:query)))
 
-      # AshPhoenix.LiveView.page_from_params(params, 2)
       pagination offset?: true, default_limit: 3
+      # pagination keyset?: true, default_limit: 3 # PDF page 74
     end
 
     update :update do
