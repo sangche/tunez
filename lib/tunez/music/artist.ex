@@ -59,7 +59,11 @@ defmodule Tunez.Music.Artist do
     end
   end
 
+  # derived attributes from the albums relationship. PDF 77
   calculations do
     calculate :album_count, :integer, expr(count(albums))
+    calculate :latest_album_year_released, :integer, expr(first(albums, field: :year_released))
+    calculate :cover_image_url, :string, expr(first(albums, field: :cover_image_url))
+    # return ni if the artist has albums but none of them has a cover image.
   end
 end
