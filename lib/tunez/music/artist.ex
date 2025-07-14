@@ -66,4 +66,12 @@ defmodule Tunez.Music.Artist do
     calculate :cover_image_url, :string, expr(first(albums, field: :cover_image_url))
     # return ni if the artist has albums but none of them has a cover image.
   end
+
+  # Aggregates perform some kind of calculation on records in a relationship,
+  # Aggregates are not derived attributes, they are more like a summary of the relationship.
+  # Aggregate simplifies calculations that are not derived attributes.
+  aggregates do
+    # same as calculate :album_count, :integer, expr(count(albums))
+    count :album_count2, :albums
+  end
 end
