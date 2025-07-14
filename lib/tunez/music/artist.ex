@@ -59,14 +59,6 @@ defmodule Tunez.Music.Artist do
     end
   end
 
-  # derived attributes from the albums relationship. PDF 77
-  # calculations do
-  #   calculate :album_count, :integer, expr(count(albums))
-  #   calculate :latest_album_year_released, :integer, expr(first(albums, field: :year_released))
-  #   calculate :cover_image_url, :string, expr(first(albums, field: :cover_image_url))
-  #   # return ni if the artist has albums but none of them has a cover image.
-  # end
-
   # Aggregates perform some kind of calculation on records in a relationship,
   # Aggregates are not derived attributes, they are more like a summary of the relationship.
   # Aggregate simplifies calculations that are not derived attributes.
