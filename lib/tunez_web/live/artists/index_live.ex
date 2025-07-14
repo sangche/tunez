@@ -15,16 +15,13 @@ defmodule TunezWeb.Artists.IndexLive do
     sort_by = Map.get(params, "sort_by") |> validate_sort_by()
     query_text = Map.get(params, "q", "")
 
-    # page = Tunez.Music.search_artists!(query_text, query: [sort_input: sort_by])
-
     page_params = AshPhoenix.LiveView.page_from_params(params, 3)
-
-    # IO.inspect(page_params, label: "Page Params")
 
     page =
       Tunez.Music.search_artists!(query_text,
         page: page_params,
-        query: [sort_input: sort_by]
+        query: [sort_input: sort_by],
+        load: [:album_count, :latest_album_year_released, :cover_image_url]
       )
 
     socket =
