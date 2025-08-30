@@ -22,8 +22,9 @@ defmodule Tunez.Music.Artist do
       pagination offset?: true, default_limit: 3
       # pagination keyset?: true, default_limit: 3 # PDF page 74
 
-      prepare build(load: [:album_count, :latest_album_year_released, :cover_image_url])
-      # PDF 82
+      # prepare build(load: [:album_count, :latest_album_year_released, :cover_image_url])
+      # --> getting calcualtios are costly. so, comment out.
+      # if interface Tunez.Music.search_artists is used, they are loaded by default. PDF 82
     end
 
     update :update do

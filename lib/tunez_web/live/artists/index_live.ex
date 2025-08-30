@@ -21,6 +21,8 @@ defmodule TunezWeb.Artists.IndexLive do
       Tunez.Music.search_artists!(query_text,
         page: page_params,
         query: [sort_input: sort_by]
+        # load: [:album_count, :latest_album_year_released, :cover_image_url]
+        # <-- moved to music domain_interface as default options
       )
 
     socket =
@@ -61,6 +63,20 @@ defmodule TunezWeb.Artists.IndexLive do
 
       <.pagination_links page={@page} query_text={@query_text} sort_by={@sort_by} />
     </Layouts.app>
+    <!-- A very basic Hero page, prompting the user to either signup or login -->
+<div class="hero min-h-screen bg-base-200">
+    <div class="hero-content text-center">
+        <div class="max-w-md">
+            <h1 class="text-5xl font-bold">Welcome to BasicPay!</h1>
+            <p class="py-6">The app that lets you pay, <em>basically</em>, anyone.</p>
+            <!-- These SvelteKit preload attributes keep the redirects from firing when the user hovers over the button -->
+            <div data-sveltekit-preload-data="tap" data-sveltekit-preload-code="hover">
+                <a href="/signup" class="btn-primary btn">Signup Now</a>
+                <a href="/login" class="btn-outline btn">Login</a>
+            </div>
+        </div>
+    </div>
+</div>
     """
   end
 
@@ -69,6 +85,7 @@ defmodule TunezWeb.Artists.IndexLive do
     <div id={"artist-#{@artist.id}"} data-role="artist-card" class="relative mb-2">
       <.link navigate={~p"/artists/#{@artist.id}"}>
         <.cover_image image={@artist.cover_image_url} />
+        {@artist.album_count} albums, latest release {@artist.latest_album_year_released}
       </.link>
     </div>
     <p class="flex justify-between">
