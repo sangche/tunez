@@ -1,5 +1,5 @@
 defmodule Tunez.Music do
-  use Ash.Domain, otp_app: :tunez, extensions: [AshPhoenix]
+  use Ash.Domain, otp_app: :tunez, extensions: [AshJsonApi.Domain, AshPhoenix]
 
   # we can customize only the form_to_create_album action by using the forms3 DSL,
   # from the AshPhoenix domain extension. see page 41
