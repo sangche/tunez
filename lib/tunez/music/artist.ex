@@ -69,9 +69,11 @@ defmodule Tunez.Music.Artist do
   aggregates do
     # same as calculate :album_count, :integer, expr(count(albums))
     count :album_count, :albums do
-      # for sorting like iex(1)> Tunez.Music.search_artists("t", [query: [sort_input: "-album_count"]])
+      # for sorting like iex(2)> Tunez.Music.search_artists("t", [query: [sort_input: "-album_count"]])
       public? true
     end
+
+    # iex(1)> Tunez.Music.search_artists("t", [query: [sort: [album_count: :desc]]])
 
     # P84, P69
     first :latest_album_year_released, :albums, :year_released do
@@ -81,5 +83,5 @@ defmodule Tunez.Music.Artist do
     first :cover_image_url, :albums, :cover_image_url
   end
 
-  # iex(1)> Tunez.Music.search_artists("a", load: [:album_count, :album_count, :latest_album_year_released])
+  # iex(3)> Tunez.Music.search_artists("a", load: [:album_count, :album_count, :latest_album_year_released])
 end
