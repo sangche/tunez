@@ -68,8 +68,16 @@ defmodule Tunez.Music.Artist do
   # Aggregate simplifies calculations that are not derived attributes.
   aggregates do
     # same as calculate :album_count, :integer, expr(count(albums))
-    count :album_count, :albums
-    first :latest_album_year_released, :albums, :year_released
+    count :album_count, :albums do
+      # for sorting like iex(1)> Tunez.Music.search_artists("t", [query: [sort_input: "-album_count"]])
+      public? true
+    end
+
+    # P84, P69
+    first :latest_album_year_released, :albums, :year_released do
+      public? true
+    end
+
     first :cover_image_url, :albums, :cover_image_url
   end
 
