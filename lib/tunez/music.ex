@@ -10,6 +10,12 @@ defmodule Tunez.Music do
         patch :update
         delete :destroy
       end
+
+      base_route "/albums", Tunez.Music.Album do
+        post :create
+        patch :update
+        delete :destroy
+      end
     end
   end
 
