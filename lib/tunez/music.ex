@@ -9,7 +9,11 @@ defmodule Tunez.Music do
         post :create
         patch :update
         delete :destroy
+        # linking a list of albums to an artist. Page94
+        related :albums, :read, primary?: true
       end
+
+      # ex: http://localhost:4000/api/json/artists/082b0b45-8c4a-459f-8d15-85ba026c9442/albums
 
       base_route "/albums", Tunez.Music.Album do
         post :create
