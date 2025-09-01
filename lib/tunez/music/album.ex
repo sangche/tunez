@@ -51,6 +51,7 @@ defmodule Tunez.Music.Album do
 
     attribute :name, :string do
       allow_nil? false
+      public? true
     end
 
     attribute :year_released, :integer do
