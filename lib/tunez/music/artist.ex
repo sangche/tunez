@@ -7,7 +7,11 @@ defmodule Tunez.Music.Artist do
 
   json_api do
     type "artist"
+    # page 94
+    includes [:albums]
   end
+
+  # ex: http://localhost:4000/api/json/artists?query=the&include=albums
 
   postgres do
     table "artists"
@@ -68,6 +72,8 @@ defmodule Tunez.Music.Artist do
     has_many :albums, Tunez.Music.Album do
       # page 45
       sort year_released: :desc
+      # page 93
+      public? true
     end
   end
 
