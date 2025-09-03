@@ -32,6 +32,16 @@ defmodule Tunez.Music do
   # AshPhoenix extension will autogen form_to_create_artist, form_to_...
 
   resources do
+    resource MyApp.Accounts.User do
+      define :create_user, action: :create
+      define :read_user, action: :read
+    end
+
+    resource MyApp.Tweet do
+      define :create_tweet, action: :create
+      define :read_tweet, action: :read
+    end
+
     resource Tunez.Music.Artist do
       define :create_artist, action: :create
       define :read_artists, action: :read
