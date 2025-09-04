@@ -9,6 +9,7 @@ defmodule Tunez.Music.Artist do
     type "artist"
     # page 94
     includes [:albums]
+    derive_filter? false
   end
 
   # ex: http://localhost:4000/api/json/artists?query=the&include=albums
@@ -18,12 +19,18 @@ defmodule Tunez.Music.Artist do
     repo Tunez.Repo
   end
 
+  resource do
+    description "A person or group of people that makes and releases music. 음악을 제작, 발표하는 개인이나 집단"
+  end
+
   actions do
     defaults [:create, :read, :destroy]
     default_accept [:name, :biography]
 
     # PDF page 63
     read :search do
+      description "===>> List Artists, optionally filtering by name. Now derive_filter? false"
+
       argument :query, :ci_string do
         constraints allow_empty?: true
         default ""

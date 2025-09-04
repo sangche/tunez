@@ -7,6 +7,7 @@ defmodule Tunez.Music.Album do
 
   json_api do
     type "album"
+    derive_filter? false
   end
 
   postgres do
@@ -16,6 +17,10 @@ defmodule Tunez.Music.Album do
     references do
       reference :artist, index?: true, on_delete: :delete
     end
+  end
+
+  resource do
+    description "많은 음악 곡들을 수록하고 있는 음반. 음악을 제작, 발표하는 개인이나 집단에 의해 제작됨"
   end
 
   actions do
