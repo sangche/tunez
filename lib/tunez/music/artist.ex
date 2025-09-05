@@ -7,6 +7,23 @@ defmodule Tunez.Music.Artist do
 
   graphql do
     type :artist
+
+    # only attributes below are exposed for filtering to client.
+    filterable_fields [
+      :name,
+      :album_count,
+      :cover_image_url,
+      :inserted_at,
+      :latest_album_year_released,
+      :updated_at
+    ]
+
+    # if above not defined, everything will be exposed for filtering to client by default.
+    # if you want to expose NO filter at all, use:
+    # derive_filter? false
+
+    # But used as below is not limited to above.
+    # ex: Tunez.Music.search_artists("the", [query: [filter: %{album_count: %{gt: 2}}]])
   end
 
   json_api do
@@ -124,6 +141,36 @@ end
 # }
 
 # {
+#   searchArtists(query: "a", limit: 4) {
+#     results {
+#       albumCount
+#       latestAlbumYearReleased
+#       name
+#     }
+#   }
+# }
+
+# {
+#   searchArtists(query: "o", limit: 4, filter: {name: {eq: "Violet Depths"}}) {
+#     results {
+#       albumCount
+#       latestAlbumYearReleased
+#       name
+#     }
+#   }
+# }
+
+# {
+#   searchArtists(query: "a", limit: 4, filter: {albumCount: {eq: 2}}) {
+#     results {
+#       albumCount
+#       latestAlbumYearReleased
+#       name
+#     }
+#   }
+# }
+
+# {
 #   getArtistById(id: "015ee671-e8cc-44f6-9225-57857b9e601f") {
 #     name
 #     albumCount
@@ -139,6 +186,28 @@ end
 #     results {
 #       id
 #       name
+#     }
+#   }
+# }
+
+# {
+#   readArtists(filter: {latestAlbumYearReleased: { lessThan: 2010 } }) {
+#     results {
+#       name
+#       latestAlbumYearReleased
+#       albums {
+#         name
+#       }
+#     }
+#   }
+# }
+
+# {
+#   readArtists(filter: { insertedAt: { greaterThan: "2025-09-01T01:27:26.133806Z" } }) {
+#     results {
+#       name
+#       insertedAt
+#       latestAlbumYearReleased
 #     }
 #   }
 # }
