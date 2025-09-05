@@ -3,7 +3,11 @@ defmodule Tunez.Music.Album do
     otp_app: :tunez,
     domain: Tunez.Music,
     data_layer: AshPostgres.DataLayer,
-    extensions: [AshJsonApi.Resource]
+    extensions: [AshGraphql.Resource, AshJsonApi.Resource]
+
+  graphql do
+    type :album
+  end
 
   json_api do
     type "album"
@@ -75,6 +79,8 @@ defmodule Tunez.Music.Album do
     end
   end
 
+  def next_year, do: Date.utc_today().year + 1
+
   # PDF 75
   # iex(1)> Tunez.Music.get_artist_by_id("082b0b45-8c4a-459f-8d15-85ba026c9442", load: [albums: [:years_ago]])
   # iex(2)> Tunez.Music.get_artist_by_id("082b0b45-8c4a-459f-8d15-85ba026c9442", load: [albums: [:string_years_ago]])
@@ -86,8 +92,6 @@ defmodule Tunez.Music.Album do
               :string,
               expr("wow, this was released " <> years_ago <> " years ago!")
   end
-
-  def next_year, do: Date.utc_today().year + 1
 
   # book page 48. need to ash.codegen migrantion
   identities do

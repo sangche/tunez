@@ -13,6 +13,12 @@ defmodule Tunez.Music do
       update Tunez.Music.Artist, :update_artist, :update
       destroy Tunez.Music.Artist, :destroy_artist, :destroy
     end
+
+    # subscriptions do
+    #   subscribe Tunez.Music.Artist, :resource_created do
+    #     action_types :create
+    #   end
+    # end
   end
 
   json_api do
