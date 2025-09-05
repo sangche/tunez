@@ -110,3 +110,62 @@ defmodule Tunez.Music.Artist do
 
   # iex(3)> Tunez.Music.search_artists("a", load: [:album_count, :album_count, :latest_album_year_released])
 end
+
+# #
+# {
+#   searchArtists(query: "a") {
+#     results {
+#       albumCount
+#       latestAlbumYearReleased
+#       id
+#       name
+#     }
+#   }
+# }
+
+# {
+#   getArtistById(id: "015ee671-e8cc-44f6-9225-57857b9e601f") {
+#     name
+#     albumCount
+#     albums {
+#       id
+#       name
+#     }
+#   }
+# }
+
+# {
+#   readArtists {
+#     results {
+#       id
+#       name
+#     }
+#   }
+# }
+
+# mutation {
+#   createArtist(
+#     input: {biography: "A great Canadian band2", name: "Unleash the Rangers2"}
+#   ) {
+#     errors {
+#       fields
+#       message
+#     }
+#     result {
+#       name
+#       albumCount
+#       id
+#     }
+#   }
+# }
+
+# mutation {
+#   createAlbum(
+#     input: {name: "New Album Name", artistId: "015ee671-e8cc-44f6-9225-57857b9e601f", yearReleased: 2022}
+#   ) {
+#     result {
+#       id
+#       name
+#     }
+#   }
+# }
