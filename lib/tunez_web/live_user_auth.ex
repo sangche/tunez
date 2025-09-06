@@ -21,9 +21,16 @@ defmodule TunezWeb.LiveUserAuth do
     end
   end
 
+  # only after email confirmation is done
   def on_mount(:live_user_required, _params, _session, socket) do
     if socket.assigns[:current_user] do
-      {:cont, socket}
+      if socket.assigns[:current_user].confirmed_at do
+        IO.inspect(socket.assigns[:current_user].confirmed_at, label: "current_user")
+        {:cont, socket}
+      else
+        # {:halt, Phoenix.LiveView.redirect(socket, to: ~p"/auth/new?activity=confirm_new_user")}
+        {:halt, Phoenix.LiveView.redirect(socket, to: ~p"/artists/new")}
+      end
     else
       {:halt, Phoenix.LiveView.redirect(socket, to: ~p"/sign-in")}
     end
