@@ -128,7 +128,8 @@ defmodule Tunez.Music.Artist do
   # iex(3)> Tunez.Music.search_artists("a", load: [:album_count, :album_count, :latest_album_year_released])
 end
 
-# #
+# How to query from GraphiQL: http://localhost:4000/gql/playground
+
 # {
 #   searchArtists(query: "a") {
 #     results {
