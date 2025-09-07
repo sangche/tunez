@@ -40,6 +40,8 @@ defmodule Tunez.Music do
       # ex: http://localhost:4000/api/json/artists/082b0b45-8c4a-459f-8d15-85ba026c9442/albums
 
       base_route "/albums", Tunez.Music.Album do
+        # get :read   # http://localhost:4000/api/json/albums/:album_id
+        # index :read # http://localhost:4000/api/json/albums
         post :create
         patch :update
         delete :destroy
