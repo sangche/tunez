@@ -92,9 +92,13 @@ defmodule Tunez.Music.Artist do
       # authorize_if always() # simple check
       # below is filter check
       authorize_if expr(name == "Vanadine")
+      # simple check: admin can see all artists
+      authorize_if actor_attribute_equals(:role, :admin)
     end
 
-    # iex(10)> Tunez.Music.read_artists will show only Vanadine
+    # Tunez.Music.read_artists will show only Vanadine
+    # admin = %Tunez.Accounts.User{role: :admin}
+    # Tunez.Music.read_artists(actor: admin) # will show all artists
 
     policy action(:create) do
       authorize_if actor_attribute_equals(:role, :admin)
