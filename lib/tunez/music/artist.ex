@@ -79,9 +79,16 @@ defmodule Tunez.Music.Artist do
   # Tunez.Music.search_artists("the", load: [:album_count, :latest_album_year_released]) <-- by :search in policy
   # Tunez.Music.get_artist_by_id("e264e43f-026f-42b5-b163-5a61205449f4") <-- by :read in policy
   # Tunez.Music.create_artist(%{name: "New Artist"}) <-- Error Forbidden
+
+  # admin = %Tunez.Accounts.User{role: :admin}
+  # Tunez.Music.create_artist(%{name: "policy create testing New Artist"}, actor: editor) <-- pass
   policies do
     policy action([:read, :search]) do
       authorize_if always()
+    end
+
+    policy action(:create) do
+      authorize_if actor_attribute_equals(:role, :admin)
     end
   end
 

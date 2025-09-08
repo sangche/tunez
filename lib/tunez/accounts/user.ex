@@ -274,10 +274,6 @@ defmodule Tunez.Accounts.User do
 
   # When testing json, be sure to add Content-Type, application/vnd.api+json at Header in Bruno.
   policies do
-    policy action([:read, :get_by_subject, :sign_in_with_token]) do
-      authorize_if expr(id == ^actor(:id))
-    end
-
     # bypassing policy from liveview actions
     bypass AshAuthentication.Checks.AshAuthenticationInteraction do
       authorize_if always()
