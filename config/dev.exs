@@ -86,3 +86,6 @@ config :swoosh, :api_client, false
 
 # Enable detailed authentication failure messages in development
 config :ash_authentication, debug_authentication_failures?: true
+
+# Enable detailed policy failure breakdowns in development
+config :ash, :policies, show_policy_breakdowns?: true

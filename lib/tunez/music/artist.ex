@@ -81,13 +81,27 @@ defmodule Tunez.Music.Artist do
   # Tunez.Music.create_artist(%{name: "New Artist"}) <-- Error Forbidden
 
   # admin = %Tunez.Accounts.User{role: :admin}
-  # Tunez.Music.create_artist(%{name: "policy create testing New Artist"}, actor: editor) <-- pass
+  # Tunez.Music.create_artist(%{name: "policy create testing New Artist"}, actor: admin) <-- pass
   policies do
-    policy action([:read, :search]) do
+    # policy action([:read, :search]) do
+    #   authorize_if always()
+    # end
+
+    # same as above
+    policy action_type(:read) do
       authorize_if always()
     end
 
     policy action(:create) do
+      authorize_if actor_attribute_equals(:role, :admin)
+    end
+
+    policy action(:update) do
+      authorize_if actor_attribute_equals(:role, :admin)
+      authorize_if actor_attribute_equals(:role, :editor)
+    end
+
+    policy action(:destroy) do
       authorize_if actor_attribute_equals(:role, :admin)
     end
   end
