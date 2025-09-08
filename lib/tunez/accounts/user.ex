@@ -266,6 +266,10 @@ defmodule Tunez.Accounts.User do
 
       run AshAuthentication.Strategy.MagicLink.Request
     end
+
+    update :set_role do
+      accept [:role]
+    end
   end
 
   # When testing json, be sure to add Content-Type, application/vnd.api+json at Header in Bruno.
@@ -290,10 +294,6 @@ defmodule Tunez.Accounts.User do
     # policy action(:change_password) do
     #   authorize_if expr(id == ^actor(:id))
     # end
-
-    # policy always() do
-    #   authorize_if expr(id == ^actor(:id))
-    # end
   end
 
   attributes do
@@ -309,6 +309,14 @@ defmodule Tunez.Accounts.User do
     end
 
     attribute :confirmed_at, :utc_datetime_usec
+
+    attribute :role, Tunez.Accounts.Role do
+      allow_nil? false
+      default :user
+    end
+
+    # $ mix ash.codegen add_role_to_users
+    # $ mix ash.migrate
   end
 
   identities do
