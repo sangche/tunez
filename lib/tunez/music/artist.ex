@@ -89,8 +89,12 @@ defmodule Tunez.Music.Artist do
 
     # same as above
     policy action_type(:read) do
-      authorize_if always()
+      # authorize_if always() # simple check
+      # below is filter check
+      authorize_if expr(name == "Vanadine")
     end
+
+    # iex(10)> Tunez.Music.read_artists will show only Vanadine
 
     policy action(:create) do
       authorize_if actor_attribute_equals(:role, :admin)
