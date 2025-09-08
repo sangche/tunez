@@ -76,6 +76,15 @@ defmodule Tunez.Music.Artist do
     end
   end
 
+  # Tunez.Music.search_artists("the", load: [:album_count, :latest_album_year_released]) <-- by :search in policy
+  # Tunez.Music.get_artist_by_id("e264e43f-026f-42b5-b163-5a61205449f4") <-- by :read in policy
+  # Tunez.Music.create_artist(%{name: "New Artist"}) <-- Error Forbidden
+  policies do
+    policy action([:read, :search]) do
+      authorize_if always()
+    end
+  end
+
   attributes do
     uuid_primary_key :id
 
@@ -125,8 +134,6 @@ defmodule Tunez.Music.Artist do
 
     first :cover_image_url, :albums, :cover_image_url
   end
-
-  # iex(3)> Tunez.Music.search_artists("a", load: [:album_count, :album_count, :latest_album_year_released])
 end
 
 # How to query from GraphiQL: http://localhost:4000/gql/playground
