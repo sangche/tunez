@@ -21,17 +21,18 @@ defmodule TunezWeb.LiveUserAuth do
     end
   end
 
+  # to block a liveview from unauthenticated users
   # only after email confirmation is done
   def on_mount(:live_user_required, _params, _session, socket) do
     if socket.assigns[:current_user] do
       if socket.assigns[:current_user].confirmed_at do
-        IO.inspect(socket.assigns[:current_user].confirmed_at, label: "current_user")
         {:cont, socket}
       else
-        # {:halt, Phoenix.LiveView.redirect(socket, to: ~p"/auth/new?activity=confirm_new_user")}
-        {:halt, Phoenix.LiveView.redirect(socket, to: ~p"/artists/new")}
+        socket = Phoenix.LiveView.put_flash(socket, :error, "You need to confirm your email!")
+        {:halt, Phoenix.LiveView.redirect(socket, to: ~p"/email-confirm")}
       end
     else
+      socket = Phoenix.LiveView.put_flash(socket, :error, "You need Sign In!")
       {:halt, Phoenix.LiveView.redirect(socket, to: ~p"/sign-in")}
     end
   end

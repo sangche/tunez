@@ -48,6 +48,7 @@ defmodule TunezWeb.Router do
       live "/artists/:id/edit", Artists.FormLive
       live "/artists/:artist_id/albums/new", Albums.FormLive, :new
       live "/albums/:id/edit", Albums.FormLive, :edit
+      live "/email-confirm", EmailConfirmLive
     end
   end
 
