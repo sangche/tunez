@@ -155,8 +155,7 @@ defmodule TunezWeb.Artists.ShowLive do
         {:noreply, socket}
 
       {:error, error} ->
-        Logger.info("Could not delete artist '#{socket.assigns.artist.id}':
-    #{inspect(error)}")
+        Logger.info("Could not delete artist '#{socket.assigns.artist.id}': #{inspect(error)}")
 
         socket =
           socket

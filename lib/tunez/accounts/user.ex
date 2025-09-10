@@ -280,9 +280,11 @@ defmodule Tunez.Accounts.User do
     end
 
     # policy always() do
+    #   # authorize_if always()
     #   forbid_if always()
     # end
 
+    # allow for API
     policy action([:register_with_password, :sign_in_with_password]) do
       authorize_if always()
     end
