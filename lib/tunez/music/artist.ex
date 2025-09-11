@@ -143,6 +143,10 @@ defmodule Tunez.Music.Artist do
       # page 93
       public? true
     end
+
+    # P 151 need to ash.codegen migrantion
+    belongs_to :created_by, Tunez.Accounts.User
+    belongs_to :updated_by, Tunez.Accounts.User
   end
 
   # Aggregates perform some kind of calculation on records in a relationship,

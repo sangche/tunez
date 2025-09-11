@@ -77,6 +77,10 @@ defmodule Tunez.Music.Album do
     belongs_to :artist, Tunez.Music.Artist do
       allow_nil? false
     end
+
+    # P 151 need to ash.codegen migrantion
+    belongs_to :created_by, Tunez.Accounts.User
+    belongs_to :updated_by, Tunez.Accounts.User
   end
 
   def next_year, do: Date.utc_today().year + 1
