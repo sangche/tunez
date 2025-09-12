@@ -39,6 +39,13 @@ defmodule Tunez.Music.Album do
     end
   end
 
+  # assign current actor(who creates or updates this album) id to created_by_id, updated_by_id
+  changes do
+    change relate_actor(:created_by, allow_nil?: true), on: [:create]
+    # <--- for all create type
+    change relate_actor(:updated_by, allow_nil?: true)
+  end
+
   validations do
     validate numericality(:year_released,
                greater_than: 1950,
@@ -73,6 +80,8 @@ defmodule Tunez.Music.Album do
     update_timestamp :updated_at
   end
 
+  def next_year, do: Date.utc_today().year + 1
+
   relationships do
     belongs_to :artist, Tunez.Music.Artist do
       allow_nil? false
@@ -82,8 +91,6 @@ defmodule Tunez.Music.Album do
     belongs_to :created_by, Tunez.Accounts.User
     belongs_to :updated_by, Tunez.Accounts.User
   end
-
-  def next_year, do: Date.utc_today().year + 1
 
   # PDF 75
   # iex(1)> Tunez.Music.get_artist_by_id("082b0b45-8c4a-459f-8d15-85ba026c9442", load: [albums: [:years_ago]])

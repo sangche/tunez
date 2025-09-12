@@ -292,6 +292,18 @@ defmodule Tunez.Accounts.User do
     # policy action(:change_password) do
     #   authorize_if expr(id == ^actor(:id))
     # end
+
+    # This is policy that relate_actor in album.ex and artist.ex can read this resource(user)
+    # 'id' is the attribute of this resource(user)
+    # 'actor(:id)' is the id of the current actor(user) who try to read this resource(user)
+    # It means actors are authorized to read only their own user record. P. 152
+    policy action(:read) do
+      authorize_if expr(id == ^actor(:id))
+    end
+
+    # policy action(:set_role) do
+    #   authorize_if actor_attribute_equals(:role, :admin)
+    # end
   end
 
   attributes do
