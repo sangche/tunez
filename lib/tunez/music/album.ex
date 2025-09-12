@@ -53,13 +53,13 @@ defmodule Tunez.Music.Album do
       authorize_if actor_attribute_equals(:role, :editor)
     end
 
-    # creators can update or destroy only albums that they created
-    # no matter what their role is. Imagine a user with role :editor creates an album,
-    # then later their role is changed to :user, they can still update or destroy that album.
-    # but this shouldn't happen! We will fix this problem in the next commit.
-    policy action([:update, :destroy]) do
-      authorize_if relates_to_actor_via(:created_by)
-      # <-- check if the actor(of :upate, :destroy) is the same as the created_by relationship
+    # this is to fix the problem mentioned above.
+    # only editors can update or destroy albums they created.
+    # so, if an editor creates an album, then later their role is changed to :user,
+    # they can no longer update or destroy that album.
+    policy action_type([:update, :destroy]) do
+      authorize_if expr(^actor(:role) == :editor and created_by_id == ^actor(:id))
+      # actor(who calls :update, :destroy): external variable binding with ^
     end
   end
 
