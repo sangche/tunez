@@ -3,7 +3,8 @@ defmodule Tunez.Music.Album do
     otp_app: :tunez,
     domain: Tunez.Music,
     data_layer: AshPostgres.DataLayer,
-    extensions: [AshGraphql.Resource, AshJsonApi.Resource]
+    extensions: [AshGraphql.Resource, AshJsonApi.Resource],
+    authorizers: [Ash.Policy.Authorizer]
 
   graphql do
     type :album
@@ -36,6 +37,29 @@ defmodule Tunez.Music.Album do
 
     update :update do
       accept [:name, :year_released, :cover_image_url]
+    end
+  end
+
+  policies do
+    bypass actor_attribute_equals(:role, :admin) do
+      authorize_if always()
+    end
+
+    policy action_type(:read) do
+      authorize_if always()
+    end
+
+    policy action(:create) do
+      authorize_if actor_attribute_equals(:role, :editor)
+    end
+
+    # creators can update or destroy only albums that they created
+    # no matter what their role is. Imagine a user with role :editor creates an album,
+    # then later their role is changed to :user, they can still update or destroy that album.
+    # but this shouldn't happen! We will fix this problem in the next commit.
+    policy action([:update, :destroy]) do
+      authorize_if relates_to_actor_via(:created_by)
+      # <-- check if the actor(of :upate, :destroy) is the same as the created_by relationship
     end
   end
 
