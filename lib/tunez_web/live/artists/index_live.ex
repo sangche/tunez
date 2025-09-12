@@ -1,6 +1,8 @@
 defmodule TunezWeb.Artists.IndexLive do
   use TunezWeb, :live_view
 
+  # on_mount {TunezWeb.LiveUserAuth, :live_user_required}
+
   require Logger
 
   def mount(_params, _session, socket) do

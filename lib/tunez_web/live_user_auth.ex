@@ -44,4 +44,21 @@ defmodule TunezWeb.LiveUserAuth do
       {:cont, assign(socket, :current_user, nil)}
     end
   end
+
+  # P.146 To block a liveview from unauthenticated users
+  # and only allow users with a specific role, e.g. :admin
+  def on_mount([role_required: role_required], _, _, socket) do
+    current_user = socket.assigns[:current_user]
+
+    if current_user && current_user.role == role_required do
+      {:cont, socket}
+    else
+      socket =
+        socket
+        |> Phoenix.LiveView.put_flash(:error, "Unauthorized! Only #{role_required} allowed.")
+        |> Phoenix.LiveView.redirect(to: ~p"/")
+
+      {:halt, socket}
+    end
+  end
 end
