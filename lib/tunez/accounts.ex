@@ -33,6 +33,7 @@ defmodule Tunez.Accounts do
     resource Tunez.Accounts.User do
       define :set_user_role, action: :set_role, args: [:role]
       define :get_user_by_id, action: :read, get_by: [:id]
+      define :set_user_email, action: :set_email, args: [:email]
     end
   end
 end

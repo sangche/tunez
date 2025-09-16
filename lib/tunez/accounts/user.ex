@@ -270,6 +270,10 @@ defmodule Tunez.Accounts.User do
     update :set_role do
       accept [:role]
     end
+
+    update :set_email do
+      accept [:email]
+    end
   end
 
   # When testing json, be sure to add Content-Type, application/vnd.api+json at Header in Bruno.
