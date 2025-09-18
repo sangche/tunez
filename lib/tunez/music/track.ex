@@ -10,6 +10,22 @@ defmodule Tunez.Music.Track do
     end
   end
 
+  # primary? true means:
+  # primary action of action type 'create' to insert new data is ':create'
+  actions do
+    defaults [:read, :destroy]
+
+    create :create do
+      primary? true
+      accept [:order, :name, :duration_seconds, :album_id]
+    end
+
+    update :update do
+      primary? true
+      accept [:order, :name, :duration_seconds]
+    end
+  end
+
   attributes do
     uuid_primary_key :id
 

@@ -59,6 +59,12 @@ defmodule TunezWeb.Albums.FormLive do
         </div>
         <.input field={form[:cover_image_url]} label="Cover Image URL" />
 
+        <.track_inputs form={form} />
+
+        <pre>{inspect(form, pretty: true)}</pre>
+        <hr />
+        <pre>{inspect(@form, pretty: true)}</pre>
+
         <:actions>
           <.button type="primary">Save</.button>
         </:actions>
@@ -68,6 +74,14 @@ defmodule TunezWeb.Albums.FormLive do
   end
 
   def track_inputs(assigns) do
+    IO.inspect(assigns.form, label: "track_inputs===>>>")
+
+    ~H"""
+    <.h2>Tracks !!</.h2>
+    """
+  end
+
+  def track_inputs2(assigns) do
     ~H"""
     <.h2>Tracks</.h2>
 
