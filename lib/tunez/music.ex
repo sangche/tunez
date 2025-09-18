@@ -79,6 +79,8 @@ defmodule Tunez.Music do
       define :update_album, action: :update
       define :destroy_album, action: :destroy
     end
+
+    resource Tunez.Music.Track
   end
 end
 

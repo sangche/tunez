@@ -114,6 +114,10 @@ defmodule Tunez.Music.Album do
     # P 151 need to ash.codegen migrantion
     belongs_to :created_by, Tunez.Accounts.User
     belongs_to :updated_by, Tunez.Accounts.User
+
+    has_many :tracks, Tunez.Music.Track do
+      sort order: :asc
+    end
   end
 
   # PDF 75
