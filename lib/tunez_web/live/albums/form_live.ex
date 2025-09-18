@@ -61,9 +61,7 @@ defmodule TunezWeb.Albums.FormLive do
 
         <.track_inputs form={form} />
 
-        <pre>{inspect(form, pretty: true)}</pre>
-        <hr />
-        <pre>{inspect(@form, pretty: true)}</pre>
+        <pre>{inspect(form[:tracks], pretty: true)}</pre>
 
         <:actions>
           <.button type="primary">Save</.button>

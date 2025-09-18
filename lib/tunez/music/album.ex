@@ -33,10 +33,19 @@ defmodule Tunez.Music.Album do
 
     create :create do
       accept [:name, :year_released, :cover_image_url, :artist_id]
+
+      argument :tracks, {:array, :map}
+      # change manage_relationship(:tracks, :tracks, type: :direct_control)
+      # argument name == relationship name. P 185
+      change manage_relationship(:tracks, type: :direct_control)
     end
 
     update :update do
       accept [:name, :year_released, :cover_image_url]
+
+      require_atomic? false
+      argument :tracks, {:array, :map}
+      change manage_relationship(:tracks, type: :direct_control)
     end
   end
 
