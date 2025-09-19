@@ -76,8 +76,6 @@ defmodule TunezWeb.Albums.FormLive do
     ~H"""
     <.h2>Tracks</.h2>
 
-    <%!-- <pre>{inspect(@form[:tracks].value, pretty: true)}</pre> --%>
-
     <table class="w-full">
       <thead class="border-b border-zinc-100">
         <tr>
@@ -87,31 +85,13 @@ defmodule TunezWeb.Albums.FormLive do
         </tr>
       </thead>
       <tbody phx-hook="trackSort" id="trackSort">
-        <%!-- https://hexdocs.pm/ash_phoenix/nested-forms.html --%>
-        <.inputs_for :let={track} field={@form[:tracks]}>
-          <.input field={track[:name]} />
-        </.inputs_for>
-
-        <.button type="button" phx-click="add-form" phx-value-path={@form.name <> "[tracks]"}>
-          <.icon name="hero-plus" />
-        </.button>
-
-        <label>
-          <input type="checkbox" name={"#{@form.name}[_add_tracks]"} value="end" class="hidden" />
-          <.icon name="hero-plus" />
-        </label>
-
         <.inputs_for :let={track_form} field={@form[:tracks]}>
-          <%!-- track_form is a form inside album form --%>
-          <%!-- <pre>{inspect(track_form[:name], pretty: true)}</pre> --%>
           <tr data-id={track_form.index}>
             <td class="px-3 w-20">
               <.input field={track_form[:order]} type="number" />
             </td>
             <td class="px-3">
               <label for={track_form[:name].id} class="hidden">Name</label>
-              <pre>{inspect(track_form[:name].id)}</pre>
-              <pre>{inspect(track_form.name, pretty: true)}</pre>
               <.input field={track_form[:name]} />
             </td>
             <td class="px-3 w-36">
@@ -176,10 +156,7 @@ defmodule TunezWeb.Albums.FormLive do
   def handle_event("add-track", _params, socket) do
     socket =
       update(socket, :form, fn form ->
-        IO.inspect(AshPhoenix.Form.value(form, :tracks))
-
         order = length(AshPhoenix.Form.value(form, :tracks) || []) + 1
-
         AshPhoenix.Form.add_form(form, :tracks, params: %{order: order})
       end)
 
@@ -193,12 +170,6 @@ defmodule TunezWeb.Albums.FormLive do
       update(socket, :form, fn form ->
         AshPhoenix.Form.remove_form(form, path)
       end)
-
-    {:noreply, socket}
-  end
-
-  def handle_event("add-form", %{"path" => path}, socket) do
-    IO.inspect(path)
 
     {:noreply, socket}
   end
