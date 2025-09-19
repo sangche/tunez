@@ -27,7 +27,7 @@ defmodule Tunez.Music.Track do
   end
 
   preparations do
-    prepare build(load: [:number])
+    prepare build(load: [:number, :duration2])
   end
 
   attributes do
@@ -58,6 +58,23 @@ defmodule Tunez.Music.Track do
 
   calculations do
     calculate :number, :integer, expr(order + 1)
+
+    calculate :duration2, :string, fn tracks, context ->
+      # IO.inspect(tracks, label: "tracks in calculation")
+      # IO.inspect(context, label: "context in calculation")
+      # Code to calculate duration for each track in the list of tracks
+      # Note: This functions receives a list of tracks, not a single track. Page 196
+      Enum.map(tracks, fn %{duration_seconds: duration} ->
+        seconds =
+          rem(duration, 60)
+          |> Integer.to_string()
+          |> String.pad_leading(2, "0")
+
+        "#{div(duration, 60)}:#{seconds}"
+      end)
+    end
+
+    # calculate :duration, :string, Tunez.Music.Calculations.SecondsToMinutes
   end
 
   # a track belongs to an album, an album has many tracks
