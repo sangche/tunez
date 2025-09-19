@@ -3,7 +3,10 @@ defmodule TunezWeb.Albums.FormLive do
 
   def mount(%{"id" => album_id}, _session, socket) do
     album =
-      Tunez.Music.get_album_by_id!(album_id, load: [:artist], actor: socket.assigns.current_user)
+      Tunez.Music.get_album_by_id!(album_id,
+        load: [:artist, :tracks],
+        actor: socket.assigns.current_user
+      )
 
     # artist = Tunez.Music.get_artist_by_id!(album.artist_id)
     form =
@@ -61,8 +64,6 @@ defmodule TunezWeb.Albums.FormLive do
 
         <.track_inputs form={form} />
 
-        <pre>{inspect(form[:tracks], pretty: true)}</pre>
-
         <:actions>
           <.button type="primary">Save</.button>
         </:actions>
@@ -72,16 +73,10 @@ defmodule TunezWeb.Albums.FormLive do
   end
 
   def track_inputs(assigns) do
-    IO.inspect(assigns.form, label: "track_inputs===>>>")
-
-    ~H"""
-    <.h2>Tracks !!</.h2>
-    """
-  end
-
-  def track_inputs2(assigns) do
     ~H"""
     <.h2>Tracks</.h2>
+
+    <%!-- <pre>{inspect(@form[:tracks].value, pretty: true)}</pre> --%>
 
     <table class="w-full">
       <thead class="border-b border-zinc-100">
@@ -93,12 +88,16 @@ defmodule TunezWeb.Albums.FormLive do
       </thead>
       <tbody phx-hook="trackSort" id="trackSort">
         <.inputs_for :let={track_form} field={@form[:tracks]}>
+          <%!-- track_form is a form inside album form --%>
+          <%!-- <pre>{inspect(track_form[:name], pretty: true)}</pre> --%>
           <tr data-id={track_form.index}>
             <td class="px-3 w-20">
               <.input field={track_form[:order]} type="number" />
             </td>
             <td class="px-3">
               <label for={track_form[:name].id} class="hidden">Name</label>
+              <pre>{inspect(track_form[:name].id)}</pre>
+              <pre>{inspect(track_form.name, pretty: true)}</pre>
               <.input field={track_form[:name]} />
             </td>
             <td class="px-3 w-36">
@@ -165,6 +164,7 @@ defmodule TunezWeb.Albums.FormLive do
   end
 
   def handle_event("remove-track", %{"path" => _path}, socket) do
+    IO.puts("HHHHHHH")
     {:noreply, socket}
   end
 
