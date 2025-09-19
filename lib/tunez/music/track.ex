@@ -26,6 +26,10 @@ defmodule Tunez.Music.Track do
     end
   end
 
+  preparations do
+    prepare build(load: [:number])
+  end
+
   attributes do
     uuid_primary_key :id
 
@@ -50,6 +54,10 @@ defmodule Tunez.Music.Track do
     belongs_to :album, Tunez.Music.Album do
       allow_nil? false
     end
+  end
+
+  calculations do
+    calculate :number, :integer, expr(order + 1)
   end
 
   # a track belongs to an album, an album has many tracks
