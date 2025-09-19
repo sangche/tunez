@@ -87,6 +87,20 @@ defmodule TunezWeb.Albums.FormLive do
         </tr>
       </thead>
       <tbody phx-hook="trackSort" id="trackSort">
+        <%!-- https://hexdocs.pm/ash_phoenix/nested-forms.html --%>
+        <.inputs_for :let={track} field={@form[:tracks]}>
+          <.input field={track[:name]} />
+        </.inputs_for>
+
+        <.button type="button" phx-click="add-form" phx-value-path={@form.name <> "[tracks]"}>
+          <.icon name="hero-plus" />
+        </.button>
+
+        <label>
+          <input type="checkbox" name={"#{@form.name}[_add_tracks]"} value="end" class="hidden" />
+          <.icon name="hero-plus" />
+        </label>
+
         <.inputs_for :let={track_form} field={@form[:tracks]}>
           <%!-- track_form is a form inside album form --%>
           <%!-- <pre>{inspect(track_form[:name], pretty: true)}</pre> --%>
@@ -179,6 +193,12 @@ defmodule TunezWeb.Albums.FormLive do
       update(socket, :form, fn form ->
         AshPhoenix.Form.remove_form(form, path)
       end)
+
+    {:noreply, socket}
+  end
+
+  def handle_event("add-form", %{"path" => path}, socket) do
+    IO.inspect(path)
 
     {:noreply, socket}
   end
