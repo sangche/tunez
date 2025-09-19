@@ -88,7 +88,7 @@ defmodule TunezWeb.Albums.FormLive do
         <.inputs_for :let={track_form} field={@form[:tracks]}>
           <tr data-id={track_form.index}>
             <td class="px-3 w-20">
-              <.input field={track_form[:order]} type="number" />
+              <%!-- <.input field={track_form[:order]} type="number" /> --%>
             </td>
             <td class="px-3">
               <label for={track_form[:name].id} class="hidden">Name</label>
@@ -156,8 +156,9 @@ defmodule TunezWeb.Albums.FormLive do
   def handle_event("add-track", _params, socket) do
     socket =
       update(socket, :form, fn form ->
-        order = length(AshPhoenix.Form.value(form, :tracks) || []) + 1
-        AshPhoenix.Form.add_form(form, :tracks, params: %{order: order})
+        # order = length(AshPhoenix.Form.value(form, :tracks) || []) + 1
+        # AshPhoenix.Form.add_form(form, :tracks, params: %{order: order})
+        AshPhoenix.Form.add_form(form, :tracks)
       end)
 
     {:noreply, socket}

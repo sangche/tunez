@@ -37,7 +37,8 @@ defmodule Tunez.Music.Album do
       argument :tracks, {:array, :map}
       # change manage_relationship(:tracks, :tracks, type: :direct_control)
       # argument name == relationship name. P 185
-      change manage_relationship(:tracks, type: :direct_control)
+
+      change manage_relationship(:tracks, type: :direct_control, order_is_key: :order)
     end
 
     update :update do
@@ -45,7 +46,8 @@ defmodule Tunez.Music.Album do
 
       require_atomic? false
       argument :tracks, {:array, :map}
-      change manage_relationship(:tracks, type: :direct_control)
+
+      change manage_relationship(:tracks, type: :direct_control, order_is_key: :order)
     end
   end
 
@@ -75,7 +77,7 @@ defmodule Tunez.Music.Album do
   # assign current actor(who creates or updates this album) id to created_by_id, updated_by_id
   changes do
     change relate_actor(:created_by, allow_nil?: true), on: [:create]
-    # <--- for all create type
+    # <--- for all create type, otherwise, update actions below.
     change relate_actor(:updated_by, allow_nil?: true)
   end
 
