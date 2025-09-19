@@ -87,6 +87,7 @@ defmodule TunezWeb.Albums.FormLive do
       <tbody phx-hook="trackSort" id="trackSort">
         <.inputs_for :let={track_form} field={@form[:tracks]}>
           <tr data-id={track_form.index}>
+            <%!-- this hero-bars-3 icon is drag handle to reorder. P --%>
             <td class="px-3 w-10">
               <span class="hero-bars-3 handle cursor-pointer" />
             </td>
@@ -176,7 +177,11 @@ defmodule TunezWeb.Albums.FormLive do
   end
 
   def handle_event("reorder-tracks", %{"order" => order}, socket) do
-    IO.inspect(order, label: "new order")
+    socket =
+      update(socket, :form, fn form ->
+        AshPhoenix.Form.sort_forms(form, [:tracks], order)
+      end)
+
     {:noreply, socket}
   end
 end
