@@ -172,7 +172,14 @@ defmodule TunezWeb.Albums.FormLive do
     {:noreply, socket}
   end
 
-  def handle_event("remove-track", %{"path" => _path}, socket) do
+  def handle_event("remove-track", %{"path" => path}, socket) do
+    IO.inspect(path)
+
+    socket =
+      update(socket, :form, fn form ->
+        AshPhoenix.Form.remove_form(form, path)
+      end)
+
     {:noreply, socket}
   end
 
