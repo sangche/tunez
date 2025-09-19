@@ -160,11 +160,15 @@ defmodule TunezWeb.Albums.FormLive do
   end
 
   def handle_event("add-track", _params, socket) do
+    socket =
+      update(socket, :form, fn form ->
+        AshPhoenix.Form.add_form(form, :tracks)
+      end)
+
     {:noreply, socket}
   end
 
   def handle_event("remove-track", %{"path" => _path}, socket) do
-    IO.puts("HHHHHHH")
     {:noreply, socket}
   end
 
