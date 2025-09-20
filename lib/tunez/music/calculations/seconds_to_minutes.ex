@@ -1,13 +1,9 @@
 defmodule Tunez.Music.Calculations.SecondsToMinutes do
-  # use Ash.Resource.Calculation
+  use Ash.Resource.Calculation
 
-  def init(_opts) do
-    {:ok, 0}
-  end
-
-  def load(tracks, _opts, _context) do
-    IO.inspect(tracks, label: "tracks in SecondsToMinutes")
-
+  @impl true
+  def calculate(tracks, _opts, _context) do
+    # Code to calculate duration for each track in the list of tracks
     Enum.map(tracks, fn %{duration_seconds: duration} ->
       seconds =
         rem(duration, 60)
