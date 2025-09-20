@@ -110,7 +110,7 @@ defmodule TunezWeb.Artists.ShowLive do
           {String.pad_leading("#{track.number}", 2, "0")}.
         </th>
         <td class="p-3">{track.name}</td>
-        <td class="whitespace-nowrap w-1 text-right p-2">{track.duration}</td>
+        <td class="whitespace-nowrap w-1 text-right p-2">{track.duration3}</td>
       </tr>
     </table>
     <div :if={@tracks == []} class="p-8 text-center italic text-gray-400">

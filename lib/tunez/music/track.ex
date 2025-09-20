@@ -27,7 +27,7 @@ defmodule Tunez.Music.Track do
   end
 
   preparations do
-    prepare build(load: [:number, :duration])
+    prepare build(load: [:number, :duration3])
   end
 
   attributes do
@@ -70,6 +70,16 @@ defmodule Tunez.Music.Track do
     #     "#{div(duration, 60)}:#{seconds}"
     #   end)
     # end
+
+    calculate :duration3,
+              :string,
+              expr(
+                fragment(
+                  "? / 60 || to_char(? * interval '1s', ':SS')",
+                  duration_seconds,
+                  duration_seconds
+                )
+              )
 
     calculate :duration, :string, Tunez.Music.Calculations.SecondsToMinutes
   end
