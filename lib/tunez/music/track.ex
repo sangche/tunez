@@ -27,7 +27,7 @@ defmodule Tunez.Music.Track do
   end
 
   preparations do
-    prepare build(load: [:duration])
+    prepare build(load: [:number, :duration])
   end
 
   attributes do
@@ -57,7 +57,8 @@ defmodule Tunez.Music.Track do
   end
 
   calculations do
-    # calculate :number, :integer, expr(order + 1)
+    # done in the DB layer, not in Elixir. Page 197
+    calculate :number, :integer, expr(order + 1)
 
     # calculate :duration2, :string, fn tracks, context ->
     #   Enum.map(tracks, fn %{duration_seconds: duration} ->
