@@ -141,6 +141,13 @@ defmodule Tunez.Music.Album do
     calculate :string_years_ago,
               :string,
               expr("wow, this was released " <> years_ago <> " years ago!")
+
+    calculate :duration, :string, Tunez.Music.Calculations.SecondsToMinutes
+  end
+
+  aggregates do
+    # sum of all track durations in this album, and store it in duration_seconds aggregate of Album
+    sum :duration_seconds, :tracks, :duration_seconds
   end
 
   # book page 48. need to ash.codegen migrantion
