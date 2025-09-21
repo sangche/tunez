@@ -30,11 +30,13 @@ defmodule Tunez.Music.Artist do
   json_api do
     type "artist"
     # page 94
-    includes [:albums]
+    # page 204
+    includes albums: [:tracks]
     derive_filter? false
   end
 
   # ex: http://localhost:4000/api/json/artists?query=the&include=albums
+  # http://localhost:4000/api/json/artists/02a3cd19-24f7-4fde-8460-6eadb2618f02/albums?include=tracks
 
   postgres do
     table "artists"

@@ -12,7 +12,7 @@ defmodule Tunez.Music.Track do
   json_api do
     type "track"
     # P204
-    default_fields [:name]
+    default_fields [:number, :name, :duration]
   end
 
   postgres do
