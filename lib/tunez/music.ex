@@ -6,6 +6,8 @@ defmodule Tunez.Music do
       get Tunez.Music.Artist, :get_artist_by_id, :read
       list Tunez.Music.Artist, :read_artists, :read
       list Tunez.Music.Artist, :search_artists, :search
+
+      get Tunez.Music.Album, :get_album_by_id, :read
     end
 
     mutations do

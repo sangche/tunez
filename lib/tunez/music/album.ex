@@ -10,8 +10,11 @@ defmodule Tunez.Music.Album do
     type :album
   end
 
+  # Page 204
+  # http://localhost:4000/api/json/artists/015ee671-e8cc-44f6-9225-57857b9e601f/albums?include=tracks
   json_api do
     type "album"
+    includes [:tracks]
     derive_filter? false
   end
 
@@ -126,10 +129,14 @@ defmodule Tunez.Music.Album do
     belongs_to :created_by, Tunez.Accounts.User
     belongs_to :updated_by, Tunez.Accounts.User
 
+    # need public
     has_many :tracks, Tunez.Music.Track do
       sort order: :asc
+      public? true
     end
   end
+
+  # iex(1)> Tunez.Music.get_album_by_id!("c9145c1c-74cf-4225-84c1-5897c76e2fb2", load: [:tracks])
 
   # PDF 75
   # iex(1)> Tunez.Music.get_artist_by_id("082b0b45-8c4a-459f-8d15-85ba026c9442", load: [albums: [:years_ago]])
@@ -156,3 +163,23 @@ defmodule Tunez.Music.Album do
       message: "already exists for this artist"
   end
 end
+
+# {
+#   getAlbumById(id: "c9145c1c-74cf-4225-84c1-5897c76e2fb2") {
+#     name
+#     tracks {
+#       name
+#     }
+#   }
+# }
+
+# mutation {
+#   createAlbum(
+#     input: {name: "New Album Name", artistId: "015ee671-e8cc-44f6-9225-57857b9e601f", yearReleased: 2022}
+#   ) {
+#     result {
+#       id
+#       name
+#     }
+#   }
+# }

@@ -1,5 +1,19 @@
 defmodule Tunez.Music.Track do
-  use Ash.Resource, otp_app: :tunez, domain: Tunez.Music, data_layer: AshPostgres.DataLayer
+  use Ash.Resource,
+    otp_app: :tunez,
+    domain: Tunez.Music,
+    data_layer: AshPostgres.DataLayer,
+    extensions: [AshGraphql.Resource, AshJsonApi.Resource]
+
+  graphql do
+    type :track
+  end
+
+  json_api do
+    type "track"
+    # P204
+    default_fields [:name]
+  end
 
   postgres do
     table "tracks"
@@ -44,6 +58,7 @@ defmodule Tunez.Music.Track do
 
     attribute :name, :string do
       allow_nil? false
+      public? true
     end
 
     attribute :duration_seconds, :integer do
