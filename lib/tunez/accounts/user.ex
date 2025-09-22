@@ -348,3 +348,5 @@ defmodule Tunez.Accounts.User do
     identity :unique_email, [:email]
   end
 end
+
+# iex(1)> Tunez.Accounts.User  |> Ash.Query.for_read(:get_by_email, email: "sss@sss.com") |> Ash.read(load: [:follower_relationships, :followed_artists], authorize?: false)

@@ -164,6 +164,12 @@ defmodule Tunez.Music.Artist do
     end
   end
 
+  calculations do
+    calculate :followed_by_me,
+              :boolean,
+              expr(exists(follower_relationships, follower_id == ^actor(:id)))
+  end
+
   # Aggregates perform some kind of calculation on records in a relationship,
   # Aggregates are not derived attributes, they are more like a summary of the relationship.
   # Aggregate simplifies calculations that are not derived attributes.
