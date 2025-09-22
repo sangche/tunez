@@ -155,6 +155,13 @@ defmodule Tunez.Music.Artist do
     # P 151 need to ash.codegen migrantion
     belongs_to :created_by, Tunez.Accounts.User
     belongs_to :updated_by, Tunez.Accounts.User
+
+    has_many :follower_relationships, Tunez.Music.ArtistFollower
+
+    many_to_many :followers, Tunez.Accounts.User do
+      join_relationship :follower_relationships
+      destination_attribute_on_join_resource :follower_id
+    end
   end
 
   # Aggregates perform some kind of calculation on records in a relationship,

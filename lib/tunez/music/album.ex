@@ -24,6 +24,8 @@ defmodule Tunez.Music.Album do
 
     references do
       reference :artist, index?: true, on_delete: :delete
+      # delete all albums which belong to an artist if the artist is deleted
+      # need to ash.codegen migrantion
     end
   end
 
