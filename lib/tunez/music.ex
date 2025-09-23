@@ -83,7 +83,11 @@ defmodule Tunez.Music do
     end
 
     resource Tunez.Music.Track
-    resource Tunez.Music.ArtistFollower
+
+    # iex(1)> Tunez.Music.follow_artist(artist, actor: user)
+    resource Tunez.Music.ArtistFollower do
+      define :follow_artist, action: :create, args: [:artist]
+    end
   end
 end
 

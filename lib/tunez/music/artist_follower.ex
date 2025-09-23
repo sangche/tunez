@@ -21,11 +21,24 @@ defmodule Tunez.Music.ArtistFollower do
 
   actions do
     defaults [:read]
+
+    create :create do
+      argument :artist, :map, allow_nil?: false
+
+      # 'type: :direct_control' option would have created a new artist record with the same data from the argument :artist
+      change manage_relationship(:artist, type: :append_and_remove)
+
+      change relate_actor(:follower, allow_nil?: false)
+    end
   end
 
   policies do
     policy action_type(:read) do
       authorize_if always()
+    end
+
+    policy action_type(:create) do
+      authorize_if actor_present()
     end
   end
 
