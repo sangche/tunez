@@ -103,8 +103,8 @@ defmodule Tunez.Music do
       define :unfollow_artist do
         action :destroy
         args [:artist]
-        # 'reference to a record of Tunez.Music.ArtistFollower to be destroyed' is not required
-        require_reference? false
+        # Page 219
+        get? true
 
         custom_input :artist, :struct do
           constraints instance_of: Tunez.Music.Artist
