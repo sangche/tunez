@@ -28,17 +28,10 @@ defmodule Tunez.Music.ArtistFollower do
     defaults [:read]
 
     create :create do
-      argument :artist, :struct do
-        allow_nil? false
-        constraints instance_of: Tunez.Music.Artist
-      end
+      # :artist_id is an attribute of the resource, via the :artist relationship. Page 214
+      accept [:artist_id]
 
-      change fn changeset, %{actor: actor} ->
-        artist = changeset.arguments[:artist]
-
-        Ash.Changeset.force_change_attribute(changeset, :artist_id, artist.id)
-        |> Ash.Changeset.force_change_attribute(:follower_id, actor.id)
-      end
+      change relate_actor(:follower, allow_nil?: false)
     end
   end
 

@@ -86,9 +86,18 @@ defmodule Tunez.Music do
 
     resource Tunez.Music.Track
 
-    # iex(1)> Tunez.Music.follow_artist(artist, actor: user)
+    # iex(1)> h Tunez.Music.follow_artist (Page 215)
+    # iex(2)> Tunez.Music.follow_artist(artist, actor: user)
     resource Tunez.Music.ArtistFollower do
-      define :follow_artist, action: :create, args: [:artist]
+      define :follow_artist do
+        action :create
+        args [:artist]
+
+        custom_input :artist, :struct do
+          constraints instance_of: Tunez.Music.Artist
+          transform to: :artist_id, using: & &1.id
+        end
+      end
     end
   end
 end
