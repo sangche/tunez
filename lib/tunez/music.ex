@@ -18,6 +18,8 @@ defmodule Tunez.Music do
       create Tunez.Music.Album, :create_album, :create
       update Tunez.Music.Album, :update_album, :update
       destroy Tunez.Music.Album, :destroy_album, :destroy
+
+      create Tunez.Music.ArtistFollower, :follow_artist, :create
     end
 
     # subscriptions do
