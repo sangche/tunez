@@ -23,12 +23,17 @@ defmodule Tunez.Music.ArtistFollower do
     defaults [:read]
 
     create :create do
-      argument :artist, :map, allow_nil?: false
+      argument :artist, :struct do
+        allow_nil? false
+        constraints instance_of: Tunez.Music.Artist
+      end
 
-      # 'type: :direct_control' option would have created a new artist record with the same data from the argument :artist
-      change manage_relationship(:artist, type: :append_and_remove)
+      change fn changeset, %{actor: actor} ->
+        artist = changeset.arguments[:artist]
 
-      change relate_actor(:follower, allow_nil?: false)
+        Ash.Changeset.force_change_attribute(changeset, :artist_id, artist.id)
+        |> Ash.Changeset.force_change_attribute(:follower_id, actor.id)
+      end
     end
   end
 
