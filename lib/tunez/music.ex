@@ -98,6 +98,19 @@ defmodule Tunez.Music do
           transform to: :artist_id, using: & &1.id
         end
       end
+
+      # iex(3)> Tunez.Music.unfollow_artist(artist, actor: user)
+      define :unfollow_artist do
+        action :destroy
+        args [:artist]
+        # 'reference to a record of Tunez.Music.ArtistFollower to be destroyed' is not required
+        require_reference? false
+
+        custom_input :artist, :struct do
+          constraints instance_of: Tunez.Music.Artist
+          transform to: :artist_id, using: & &1.id
+        end
+      end
     end
   end
 end
