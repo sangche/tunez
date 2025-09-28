@@ -36,6 +36,8 @@ defmodule Tunez.Accounts do
       define :set_user_email, action: :set_email, args: [:email]
     end
 
-    resource Tunez.Accounts.Notification
+    resource Tunez.Accounts.Notification do
+      define :notifications_for_user, action: :for_user
+    end
   end
 end

@@ -15,6 +15,11 @@ defmodule Tunez.Accounts.Notification do
     create :create do
       accept [:user_id, :album_id]
     end
+
+    read :for_user do
+      prepare build(load: [album: [:artist]], sort: [inserted_at: :desc])
+      filter expr(user_id == ^actor(:id))
+    end
   end
 
   attributes do

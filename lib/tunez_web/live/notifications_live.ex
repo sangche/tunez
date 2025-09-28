@@ -1,8 +1,11 @@
 defmodule TunezWeb.NotificationsLive do
   use TunezWeb, :live_view
 
+  on_mount {TunezWeb.LiveUserAuth, :current_user}
+
   def mount(_params, _session, socket) do
-    notifications = []
+    notifications = Tunez.Accounts.notifications_for_user!(actor: socket.assigns.current_user)
+
     {:ok, assign(socket, notifications: notifications)}
   end
 
@@ -56,7 +59,11 @@ defmodule TunezWeb.NotificationsLive do
     """
   end
 
-  def handle_event("dismiss-notification", %{"id" => _id}, socket) do
+  # http://localhost:4000/artists/c1fe0cb3-8579-4db3-b6e2-615ff71af111/#album-4bdaaefb-b993-42c6-ac9a-e44a88dc005d
+
+  def handle_event("dismiss-notification", %{"id" => id}, socket) do
+    IO.inspect(id, label: "dismiss-notification id")
+
     {:noreply, socket}
   end
 end
