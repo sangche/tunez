@@ -12,6 +12,8 @@ defmodule Tunez.Accounts.Notification do
   end
 
   actions do
+    defaults [:destroy]
+
     create :create do
       accept [:user_id, :album_id]
     end

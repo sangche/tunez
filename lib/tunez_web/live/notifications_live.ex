@@ -59,11 +59,18 @@ defmodule TunezWeb.NotificationsLive do
     """
   end
 
-  # http://localhost:4000/artists/c1fe0cb3-8579-4db3-b6e2-615ff71af111/#album-4bdaaefb-b993-42c6-ac9a-e44a88dc005d
+  # ex http://localhost:4000/artists/c1fe0cb3-8579-4db3-b6e2-615ff71af111/#album-4bdaaefb-b993-42c6-ac9a-e44a88dc005d
 
   def handle_event("dismiss-notification", %{"id" => id}, socket) do
-    IO.inspect(id, label: "dismiss-notification id")
+    notification = Enum.find(socket.assigns.notifications, &(&1.id == id))
 
-    {:noreply, socket}
+    Tunez.Accounts.dismiss_notification(
+      notification,
+      actor: socket.assigns.current_user
+    )
+
+    notifications = Enum.reject(socket.assigns.notifications, &(&1.id == id))
+
+    {:noreply, assign(socket, notifications: notifications)}
   end
 end
