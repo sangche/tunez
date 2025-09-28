@@ -11,6 +11,12 @@ defmodule Tunez.Accounts.Notification do
     end
   end
 
+  actions do
+    create :create do
+      accept [:user_id, :album_id]
+    end
+  end
+
   attributes do
     uuid_primary_key :id
     create_timestamp :inserted_at
