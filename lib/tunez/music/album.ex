@@ -82,8 +82,10 @@ defmodule Tunez.Music.Album do
   # assign current actor(who creates or updates this album) id to created_by_id, updated_by_id
   changes do
     change relate_actor(:created_by, allow_nil?: true), on: [:create]
-    # <--- for all create type, otherwise, update actions below.
+    # <--- for only create type actions above, otherwise, update type actions below.
     change relate_actor(:updated_by, allow_nil?: true)
+
+    change Tunez.Accounts.Changes.SendNewAlbumNotifications, on: [:create]
   end
 
   validations do
