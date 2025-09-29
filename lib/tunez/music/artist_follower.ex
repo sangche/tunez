@@ -44,6 +44,15 @@ defmodule Tunez.Music.ArtistFollower do
                         follower_id == ^actor(:id)
                     )
     end
+
+    read :for_artist do
+      argument :artist_id, :uuid do
+        allow_nil? false
+      end
+
+      filter expr(artist_id == ^arg(:artist_id))
+      pagination keyset?: true, required?: false
+    end
   end
 
   policies do
