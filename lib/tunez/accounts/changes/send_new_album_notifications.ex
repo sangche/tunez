@@ -10,7 +10,7 @@ defmodule Tunez.Accounts.Changes.SendNewAlbumNotifications do
       |> Enum.map(fn %{follower_id: follower_id} ->
         %{album_id: album.id, user_id: follower_id}
       end)
-      |> Ash.bulk_create!(Tunez.Accounts.Notification, :create)
+      |> Ash.bulk_create!(Tunez.Accounts.Notification, :create, authorize?: false)
 
       {:ok, album}
     end)

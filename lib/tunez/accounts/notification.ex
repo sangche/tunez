@@ -1,5 +1,9 @@
 defmodule Tunez.Accounts.Notification do
-  use Ash.Resource, otp_app: :tunez, domain: Tunez.Accounts, data_layer: AshPostgres.DataLayer
+  use Ash.Resource,
+    otp_app: :tunez,
+    domain: Tunez.Accounts,
+    data_layer: AshPostgres.DataLayer,
+    authorizers: [Ash.Policy.Authorizer]
 
   postgres do
     table "notifications"
@@ -21,6 +25,23 @@ defmodule Tunez.Accounts.Notification do
     read :for_user do
       prepare build(load: [album: [:artist]], sort: [inserted_at: :desc])
       filter expr(user_id == ^actor(:id))
+      # users will only ever get back for their own notifications
+    end
+  end
+
+  policies do
+    policy action(:create) do
+      # At album creation, only inside this app can create notifications, using authorize?: false
+      forbid_if always()
+    end
+
+    policy action(:for_user) do
+      authorize_if actor_present()
+    end
+
+    policy action(:destroy) do
+      # if actor of destroy is the same as the user of the destroyed notification
+      authorize_if relates_to_actor_via(:user)
     end
   end
 
