@@ -3,7 +3,8 @@ defmodule Tunez.Accounts.Notification do
     otp_app: :tunez,
     domain: Tunez.Accounts,
     data_layer: AshPostgres.DataLayer,
-    authorizers: [Ash.Policy.Authorizer]
+    authorizers: [Ash.Policy.Authorizer],
+    notifiers: [Ash.Notifier.PubSub]
 
   postgres do
     table "notifications"
@@ -43,6 +44,13 @@ defmodule Tunez.Accounts.Notification do
       # if actor of destroy is the same as the user of the destroyed notification
       authorize_if relates_to_actor_via(:user)
     end
+  end
+
+  # broadcast notifications with a topic 'notifications:<user_id>` whenever a notification is created for a user
+  pub_sub do
+    prefix "notifications"
+    module TunezWeb.Endpoint
+    publish :create, [:user_id]
   end
 
   attributes do
