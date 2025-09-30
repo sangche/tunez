@@ -12,12 +12,12 @@ defmodule Tunez.Accounts.Notification do
 
     references do
       reference :user, index?: true, on_delete: :delete
-      reference :album, on_delete: :delete
+      reference :album
     end
   end
 
   actions do
-    defaults [:destroy]
+    defaults [:read, :destroy]
 
     create :create do
       accept [:user_id, :album_id]
@@ -31,6 +31,10 @@ defmodule Tunez.Accounts.Notification do
   end
 
   policies do
+    bypass actor_attribute_equals(:role, :admin) do
+      authorize_if always()
+    end
+
     policy action(:create) do
       # At album creation, only inside this app can create notifications, using authorize?: false
       forbid_if always()

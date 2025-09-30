@@ -34,7 +34,19 @@ defmodule Tunez.Music.Album do
   end
 
   actions do
-    defaults [:read, :destroy]
+    defaults [:read]
+
+    destroy :destroy do
+      primary? true
+
+      # Before the album is destroyed, destroy all notifications that belong to this album
+      # Return_notifications?: true for each notification to get :destroy action called,
+      # so that the pub_sub publish :destroy can be triggered for each notification. P 245
+      change cascade_destroy(:notifications,
+               return_notifications?: true,
+               after_action?: false
+             )
+    end
 
     create :create do
       accept [:name, :year_released, :cover_image_url, :artist_id]
@@ -138,6 +150,8 @@ defmodule Tunez.Music.Album do
       sort order: :asc
       public? true
     end
+
+    has_many :notifications, Tunez.Accounts.Notification
   end
 
   # iex(1)> Tunez.Music.get_album_by_id!("c9145c1c-74cf-4225-84c1-5897c76e2fb2", load: [:tracks])
