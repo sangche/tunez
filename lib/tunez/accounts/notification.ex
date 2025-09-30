@@ -35,6 +35,14 @@ defmodule Tunez.Accounts.Notification do
       authorize_if always()
     end
 
+    policy action_type(:read) do
+      authorize_if always()
+    end
+
+    # policy action_type([:read, :destroy]) do
+    #   authorize_if expr(^actor(:role) == :editor and relates_to_actor_via(:user))
+    # end
+
     policy action(:create) do
       # At album creation, only inside this app can create notifications, using authorize?: false
       forbid_if always()
@@ -46,7 +54,8 @@ defmodule Tunez.Accounts.Notification do
 
     policy action(:destroy) do
       # if actor of destroy is the same as the user of the destroyed notification
-      authorize_if relates_to_actor_via(:user)
+      # relates_to_actor_via(:user)
+      authorize_if always()
     end
   end
 
