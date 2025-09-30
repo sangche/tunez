@@ -56,6 +56,7 @@ defmodule Tunez.Accounts.Notification do
     end
 
     publish :create, [:user_id]
+    publish :destroy, [:user_id]
   end
 
   attributes do

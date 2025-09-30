@@ -74,9 +74,10 @@ defmodule TunezWeb.NotificationsLive do
       actor: socket.assigns.current_user
     )
 
-    notifications = Enum.reject(socket.assigns.notifications, &(&1.id == id))
-
-    {:noreply, assign(socket, notifications: notifications)}
+    # now handle_info below will remove it from the list with resource config `publish :destroy`
+    # notifications = Enum.reject(socket.assigns.notifications, &(&1.id == id))
+    # {:noreply, assign(socket, notifications: notifications)}
+    {:noreply, socket}
   end
 
   def handle_info(%{topic: "notifications:" <> _} = msg, socket) do
