@@ -36,7 +36,8 @@ defmodule Tunez.Accounts.Notification do
     end
 
     policy action_type(:read) do
-      authorize_if always()
+      # authorize_if expr(^actor(:id) == user_id)
+      authorize_if actor_present()
     end
 
     # policy action_type([:read, :destroy]) do
@@ -53,9 +54,7 @@ defmodule Tunez.Accounts.Notification do
     end
 
     policy action(:destroy) do
-      # if actor of destroy is the same as the user of the destroyed notification
-      # relates_to_actor_via(:user)
-      authorize_if always()
+      authorize_if expr(^actor(:role) == :editor and album.created_by == ^actor(:id))
     end
   end
 
