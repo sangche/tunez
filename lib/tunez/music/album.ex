@@ -81,13 +81,8 @@ defmodule Tunez.Music.Album do
       authorize_if actor_attribute_equals(:role, :editor)
     end
 
-    # this is to fix the problem mentioned above.
-    # only editors can update or destroy albums they created.
-    # so, if an editor creates an album, then later their role is changed to :user,
-    # they can no longer update or destroy that album.
     policy action_type([:update, :destroy]) do
-      authorize_if expr(^actor(:role) == :editor and created_by_id == ^actor(:id))
-      # actor(who calls :update, :destroy): external variable binding with ^
+      authorize_if expr(can_manage_album?)
     end
   end
 
@@ -168,6 +163,13 @@ defmodule Tunez.Music.Album do
               expr("wow, this was released " <> years_ago <> " years ago!")
 
     calculate :duration, :string, Tunez.Music.Calculations.SecondsToMinutes
+
+    calculate :can_manage_album?,
+              :boolean,
+              expr(
+                ^actor(:role) == :admin or
+                  (^actor(:role) == :editor and created_by_id == ^actor(:id))
+              )
   end
 
   aggregates do
