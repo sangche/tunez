@@ -54,7 +54,8 @@ defmodule Tunez.Accounts.Notification do
     end
 
     policy action(:destroy) do
-      authorize_if expr(^actor(:role) == :editor and album.created_by == ^actor(:id))
+      # authorize_if expr(^actor(:role) == :editor and album.created_by == ^actor(:id))
+      authorize_if expr(^actor(:role) == :editor and album.created_by_id == ^actor(:id))
     end
   end
 
