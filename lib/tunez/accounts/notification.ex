@@ -31,21 +31,9 @@ defmodule Tunez.Accounts.Notification do
   end
 
   policies do
-    # bypass actor_attribute_equals(:role, :admin) do
-    #   authorize_if always()
-    # end
-
-    # policy action_type(:read) do
-    #   authorize_if actor_present()
-    # end
-
     policy action(:read) do
       authorize_if expr(album.can_manage_album?)
     end
-
-    # policy action_type([:read, :destroy]) do
-    #   authorize_if expr(^actor(:role) == :editor and relates_to_actor_via(:user))
-    # end
 
     policy action(:create) do
       # At album creation, only inside this app can create notifications, using authorize?: false
@@ -61,11 +49,6 @@ defmodule Tunez.Accounts.Notification do
       authorize_if expr(album.can_manage_album?)
       authorize_if relates_to_actor_via(:user)
     end
-
-    # policy action(:destroy) do
-    #   # authorize_if expr(^actor(:role) == :editor and album.created_by == ^actor(:id))
-    #   authorize_if expr(^actor(:role) == :editor and album.created_by_id == ^actor(:id))
-    # end
   end
 
   # broadcast notifications with a topic 'notifications:<user_id>` whenever a notification is created for a user
