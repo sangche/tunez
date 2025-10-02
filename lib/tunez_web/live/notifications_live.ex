@@ -81,7 +81,7 @@ defmodule TunezWeb.NotificationsLive do
   end
 
   # when notifications created or deleted
-  def handle_info(%{topic: "notifications:" <> _} = msg, socket) do
+  def handle_info(%{topic: "notifications:" <> _} = _msg, socket) do
     # IO.inspect(msg, label: "Received notification message by subscription")
     notifications = Tunez.Accounts.notifications_for_user!(actor: socket.assigns.current_user)
 
