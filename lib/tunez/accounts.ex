@@ -1,5 +1,9 @@
 defmodule Tunez.Accounts do
-  use Ash.Domain, otp_app: :tunez, extensions: [AshJsonApi.Domain]
+  use Ash.Domain, otp_app: :tunez, extensions: [AshAdmin.Domain, AshJsonApi.Domain]
+
+  admin do
+    show? true
+  end
 
   # Note: All of the AshAuthentication actions are restricted, to only be accessible via AshAuthenticationPhoenix’s form components. P.122
   # So, if you try to call the sign-in action through the JSON:API endpoint, you’ll get an error like this:

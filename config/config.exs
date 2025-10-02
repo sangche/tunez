@@ -33,6 +33,7 @@ config :spark,
     remove_parens?: true,
     "Ash.Resource": [
       section_order: [
+        :admin,
         :authentication,
         :tokens,
         :graphql,
@@ -56,6 +57,7 @@ config :spark,
     ],
     "Ash.Domain": [
       section_order: [
+        :admin,
         :graphql,
         :json_api,
         :resources,

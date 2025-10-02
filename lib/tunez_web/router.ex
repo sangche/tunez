@@ -49,7 +49,7 @@ defmodule TunezWeb.Router do
       live "/artists/:artist_id/albums/new", Albums.FormLive, :new
       live "/albums/:id/edit", Albums.FormLive, :edit
       live "/email-confirm", EmailConfirmLive
-      live "/admin", MusicAdminLive
+      live "/my_admin", MusicAdminLive
     end
   end
 
@@ -124,6 +124,16 @@ defmodule TunezWeb.Router do
 
       live_dashboard "/dashboard", metrics: TunezWeb.Telemetry
       forward "/mailbox", Plug.Swoosh.MailboxPreview
+    end
+  end
+
+  if Application.compile_env(:tunez, :dev_routes) do
+    import AshAdmin.Router
+
+    scope "/admin" do
+      pipe_through :browser
+
+      ash_admin "/"
     end
   end
 end
