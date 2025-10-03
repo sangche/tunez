@@ -3,8 +3,23 @@ defmodule Tunez.Music.Artist do
     otp_app: :tunez,
     domain: Tunez.Music,
     data_layer: AshPostgres.DataLayer,
-    extensions: [AshGraphql.Resource, AshJsonApi.Resource],
+    extensions: [AshAdmin.Resource, AshGraphql.Resource, AshJsonApi.Resource],
     authorizers: [Ash.Policy.Authorizer]
+
+  admin do
+    name "SingerSongWriter"
+    # actor? true
+
+    # update_actions [:update]
+
+    # actions [:read, :create, :update, :destroy]
+
+    # form do
+    #   field :name
+    #   field :biography
+    #   field :albums
+    # end
+  end
 
   graphql do
     type :artist
