@@ -15,29 +15,26 @@ defmodule Tunez.Music.Changes.UpdatePreviousNames do
   # |> Ash.Changeset.for_create(...)
 
   @impl true
-  def change(changeset, _opts, _context) do
-    Ash.Changeset.before_action(changeset, fn changeset ->
-      # IO.inspect(changeset,
-      #   label: "changeset given inside change in module gets called only before action"
-      # )
-
-      # below are done in memory, not in DB
-      # it is already loaded in the changeset data when the artist was loaded
-      # in the mount, before calling the update action.
-      # so race condition can happen if multiple updates happen simultaneously
-      # because the changes are done in memory, not in DB.
-      # So, the last update will overwrite previous updates
-      # see Page 250 of PDF book
-      new_name = Ash.Changeset.get_attribute(changeset, :name)
-      previous_name = Ash.Changeset.get_data(changeset, :name)
-      previous_names = Ash.Changeset.get_data(changeset, :previous_names)
-
-      names =
-        [previous_name | previous_names]
-        |> Enum.uniq()
-        |> Enum.reject(fn name -> name == new_name end)
-
-      Ash.Changeset.change_attribute(changeset, :previous_names, names)
-    end)
+  def atomic(_changeset, _opts, _context) do
+    {:atomic,
+     %{
+       previous_names:
+         {:atomic,
+          expr(
+            fragment(
+              "array_remove(array_prepend(?, ?), ?)",
+              name,
+              previous_names,
+              ^atomic_ref(:name)
+            )
+          )}
+     }}
   end
+
+  # array_remove(array_prepend('new_name', '{old_name2, old_name1}'), 'current_name')
+
+  # Now, when 2 users change name concurrently, each get get through db update in sequence,
+  # and both previous names are kept in db in the previous_names list.
+  # So, the last update will be kept after previous updates in the previous_names list.
+  # see Page 250 of PDF book
 end
