@@ -1,6 +1,15 @@
 defmodule Tunez.Music.Changes.MinutesToSeconds do
   use Ash.Resource.Change
 
+  # With this callback, together with require_atomic? true in Track Resource action :update,
+  # Ash will try to atomically update each track(just in case the data in memory is out of date),
+  # leading to a classic n+1 query problem. PDF page 251. Performance issue.
+  # So, if you don't need to ensure atomic update, set require_atomic? false,
+  @impl true
+  def atomic(changeset, opts, context) do
+    {:ok, change(changeset, opts, context)}
+  end
+
   @impl true
   def change(changeset, _opts, _context) do
     {:ok, duration} = Ash.Changeset.fetch_argument(changeset, :duration)

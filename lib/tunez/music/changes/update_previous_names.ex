@@ -17,10 +17,18 @@ defmodule Tunez.Music.Changes.UpdatePreviousNames do
   @impl true
   def change(changeset, _opts, _context) do
     Ash.Changeset.before_action(changeset, fn changeset ->
-      IO.inspect(changeset,
-        label: "changeset given inside change in module gets called only before action"
-      )
+      # IO.inspect(changeset,
+      #   label: "changeset given inside change in module gets called only before action"
+      # )
 
+      # below are done in memory, not in DB
+      # so, no need to use Ash.Query.load to load :previous_names
+      # because it is already loaded in the changeset data when the artist was loaded
+      # in the mount, before calling the update action.
+      # so race condition can happen if multiple updates happen simultaneously
+      # because the changes are done in memory, not in DB
+      # so, the last update will overwrite previous updates
+      # see Page 250 of PDF book
       new_name = Ash.Changeset.get_attribute(changeset, :name)
       previous_name = Ash.Changeset.get_data(changeset, :name)
       previous_names = Ash.Changeset.get_data(changeset, :previous_names)
