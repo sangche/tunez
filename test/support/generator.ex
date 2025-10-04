@@ -75,38 +75,38 @@ defmodule Tunez.Generator do
   - `:album_count` - The number of albums to generate for the artist
   """
   def artist(opts \\ []) do
-    raise "Uncomment the `artist` generator content in `test/support/generator.ex` (and remove this line)"
-    # actor =
-    #   opts[:actor] ||
-    #     once(:default_actor, fn ->
-    #       generate(user(role: :admin))
-    #     end)
+    # raise "Uncomment the `artist` generator content in `test/support/generator.ex` (and remove this line)"
+    actor =
+      opts[:actor] ||
+        once(:default_actor, fn ->
+          generate(user(role: :admin))
+        end)
 
-    # after_action =
-    #   if opts[:album_count] do
-    #     fn artist ->
-    #       generate_many(album(artist_id: artist.id), opts[:album_count])
-    #       Ash.load!(artist, :albums)
-    #     end
-    #   end
+    after_action =
+      if opts[:album_count] do
+        fn artist ->
+          generate_many(album(artist_id: artist.id), opts[:album_count])
+          Ash.load!(artist, :albums)
+        end
+      end
 
-    # if opts[:seed?] do
-    #   seed_generator(
-    #     %Tunez.Music.Artist{name: sequence(:artist_name, &"Artist #{&1}")},
-    #     actor: actor,
-    #     overrides: opts,
-    #     after_action: after_action
-    #   )
-    # else
-    #   changeset_generator(
-    #     Tunez.Music.Artist,
-    #     :create,
-    #     defaults: [name: sequence(:artist_name, &"Artist #{&1}")],
-    #     actor: actor,
-    #     overrides: opts,
-    #     after_action: after_action
-    #   )
-    # end
+    if opts[:seed?] do
+      seed_generator(
+        %Tunez.Music.Artist{name: sequence(:artist_name, &"Artist #{&1}")},
+        actor: actor,
+        overrides: opts,
+        after_action: after_action
+      )
+    else
+      changeset_generator(
+        Tunez.Music.Artist,
+        :create,
+        defaults: [name: sequence(:artist_name, &"Artist #{&1}")],
+        actor: actor,
+        overrides: opts,
+        after_action: after_action
+      )
+    end
   end
 
   @doc """
@@ -178,23 +178,23 @@ defmodule Tunez.Generator do
   - `:role` - Specify a role to give the created user. Defaults to `:user`.
   """
   def user(opts \\ []) do
-    raise "Uncomment the `user` generator content in `test/support/generator.ex` (and remove this line)"
-    # changeset_generator(
-    #   Tunez.Accounts.User,
-    #   :register_with_password,
-    #   defaults: [
-    #     # Generates unique values using an auto-incrementing sequence
-    #     # eg. `user1@example.com`, `user2@example.com`, etc.
-    #     email: sequence(:user_email, &"user#{&1}@example.com"),
-    #     password: "password",
-    #     password_confirmation: "password"
-    #   ],
-    #   overrides: opts,
-    #   after_action: fn user ->
-    #     role = opts[:role] || :user
-    #     Tunez.Accounts.set_user_role!(user, role, authorize?: false)
-    #   end
-    # )
+    # raise "Uncomment the `user` generator content in `test/support/generator.ex` (and remove this line)"
+    changeset_generator(
+      Tunez.Accounts.User,
+      :register_with_password,
+      defaults: [
+        # Generates unique values using an auto-incrementing sequence
+        # eg. `user1@example.com`, `user2@example.com`, etc.
+        email: sequence(:user_email, &"user#{&1}@example.com"),
+        password: "password",
+        password_confirmation: "password"
+      ],
+      overrides: opts,
+      after_action: fn user ->
+        role = opts[:role] || :user
+        Tunez.Accounts.set_user_role!(user, role, authorize?: false)
+      end
+    )
   end
 
   def duration do

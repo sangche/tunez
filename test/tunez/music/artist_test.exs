@@ -4,9 +4,9 @@ defmodule Tunez.Music.ArtistTest do
   alias Tunez.Music, warn: false
 
   describe "Tunez.Music.read_artists!/0-2" do
-    @tag :skip
+    # @tag :skip
     test "when there is no data, nothing is returned" do
-      # assert Music.read_artists!() == []
+      assert Music.read_artists!() == []
     end
   end
 
@@ -15,12 +15,12 @@ defmodule Tunez.Music.ArtistTest do
 
     @tag :skip
     test "can filter by partial name matches" do
-      # ["hello", "goodbye", "what?"]
-      # |> Enum.each(&generate(artist(name: &1)))
+      ["hello", "goodbye", "what?"]
+      |> Enum.each(&generate(artist(name: &1)))
 
-      # assert Enum.sort(names(Music.search_artists!("o"))) == ["goodbye", "hello"]
-      # assert names(Music.search_artists!("oo")) == ["goodbye"]
-      # assert names(Music.search_artists!("he")) == ["hello"]
+      assert Enum.sort(names(Music.search_artists!("o"))) == ["goodbye", "hello"]
+      assert names(Music.search_artists!("oo")) == ["goodbye"]
+      assert names(Music.search_artists!("he")) == ["hello"]
     end
 
     @tag :skip
@@ -82,17 +82,17 @@ defmodule Tunez.Music.ArtistTest do
       # assert actual == ["three", "two", "one", "none"]
     end
 
-    @tag :skip
+    # @tag :skip
     test "can paginate search results" do
-      # generate_many(artist(), 2)
+      generate_many(artist(), 2)
 
-      # page = Music.search_artists!("", page: [limit: 1])
-      # assert length(page.results) == 1
-      # assert page.more?
+      page = Music.search_artists!("", page: [limit: 1])
+      assert length(page.results) == 1
+      assert page.more?
 
-      # next_page = Ash.page!(page, :next)
-      # assert length(page.results) == 1
-      # refute next_page.more?
+      next_page = Ash.page!(page, :next)
+      assert length(page.results) == 1
+      refute next_page.more?
     end
   end
 
@@ -108,35 +108,35 @@ defmodule Tunez.Music.ArtistTest do
   end
 
   describe "Tunez.Music.update_artist/2-3" do
-    @tag :skip
+    # @tag :skip
     test "collects old names when the artist name changes" do
-      # actor = generate(user(role: :admin))
+      actor = generate(user(role: :admin))
 
-      # artist = generate(artist(name: "First Name"))
-      # assert artist.previous_names == []
+      artist = generate(artist(name: "First Name"))
+      assert artist.previous_names == []
 
-      # # First Name is moved to previous_names
-      # artist = Music.update_artist!(artist, %{name: "Second Name"}, actor: actor)
-      # assert artist.previous_names == ["First Name"]
+      # First Name is moved to previous_names
+      artist = Music.update_artist!(artist, %{name: "Second Name"}, actor: actor)
+      assert artist.previous_names == ["First Name"]
 
-      # # Second Name is added to previous names
-      # artist = Music.update_artist!(artist, %{name: "Third Name"}, actor: actor)
-      # assert artist.previous_names == ["Second Name", "First Name"]
+      # Second Name is added to previous names
+      artist = Music.update_artist!(artist, %{name: "Third Name"}, actor: actor)
+      assert artist.previous_names == ["Second Name", "First Name"]
 
-      # # First Name is now the current name again, not a previous name
-      # artist = Music.update_artist!(artist, %{name: "First Name"}, actor: actor)
-      # assert artist.previous_names == ["Third Name", "Second Name"]
+      # First Name is now the current name again, not a previous name
+      artist = Music.update_artist!(artist, %{name: "First Name"}, actor: actor)
+      assert artist.previous_names == ["Third Name", "Second Name"]
     end
 
-    @tag :skip
+    # @tag :skip
     test "stores the actor that updated the record" do
-      # actor = generate(user(role: :admin))
+      actor = generate(user(role: :admin))
 
-      # artist = generate(artist(name: "First Name"))
-      # refute artist.updated_by_id == actor.id
+      artist = generate(artist(name: "First Name"))
+      refute artist.updated_by_id == actor.id
 
-      # artist = Music.update_artist!(artist, %{name: "Second Name"}, actor: actor)
-      # assert artist.updated_by_id == actor.id
+      artist = Music.update_artist!(artist, %{name: "Second Name"}, actor: actor)
+      assert artist.updated_by_id == actor.id
     end
   end
 
@@ -184,44 +184,44 @@ defmodule Tunez.Music.ArtistTest do
   end
 
   describe "policies" do
-    # def setup_users do
-    #   %{
-    #     admin: generate(user(role: :admin)),
-    #     editor: generate(user(role: :editor)),
-    #     user: generate(user(role: :user))
-    #   }
-    # end
+    def setup_users do
+      %{
+        admin: generate(user(role: :admin)),
+        editor: generate(user(role: :editor)),
+        user: generate(user(role: :user))
+      }
+    end
 
-    @tag skip: "Also uncomment the `setup_users` function above"
+    # @tag skip: "Also uncomment the `setup_users` function above"
     test "only admins can create new artists" do
-      # users = setup_users()
+      users = setup_users()
 
-      # assert Music.can_create_artist?(users.admin)
-      # refute Music.can_create_artist?(users.editor)
-      # refute Music.can_create_artist?(users.user)
-      # refute Music.can_create_artist?(nil)
+      assert Music.can_create_artist?(users.admin)
+      refute Music.can_create_artist?(users.editor)
+      refute Music.can_create_artist?(users.user)
+      refute Music.can_create_artist?(nil)
     end
 
-    @tag skip: "Also uncomment the `setup_users` function above"
+    # @tag skip: "Also uncomment the `setup_users` function above"
     test "only admins can delete artists" do
-      # users = setup_users()
-      # artist = generate(artist())
+      users = setup_users()
+      artist = generate(artist())
 
-      # assert Music.can_destroy_artist?(users.admin, artist)
-      # refute Music.can_destroy_artist?(users.editor, artist)
-      # refute Music.can_destroy_artist?(users.user, artist)
-      # refute Music.can_destroy_artist?(nil, artist)
+      assert Music.can_destroy_artist?(users.admin, artist)
+      refute Music.can_destroy_artist?(users.editor, artist)
+      refute Music.can_destroy_artist?(users.user, artist)
+      refute Music.can_destroy_artist?(nil, artist)
     end
 
-    @tag skip: "Also uncomment the `setup_users` function above"
+    # @tag skip: "Also uncomment the `setup_users` function above"
     test "admins and editors can update artists" do
-      # users = setup_users()
-      # artist = generate(artist())
+      users = setup_users()
+      artist = generate(artist())
 
-      # assert Music.can_update_artist?(users.admin, artist)
-      # assert Music.can_update_artist?(users.editor, artist)
-      # refute Music.can_update_artist?(users.user, artist)
-      # refute Music.can_update_artist?(nil, artist)
+      assert Music.can_update_artist?(users.admin, artist)
+      assert Music.can_update_artist?(users.editor, artist)
+      refute Music.can_update_artist?(users.user, artist)
+      refute Music.can_update_artist?(nil, artist)
     end
   end
 end
