@@ -1,5 +1,6 @@
 [
   import_deps: [
+    :cinder,
     :ash_authentication_phoenix,
     :ash_authentication,
     :ash_graphql,

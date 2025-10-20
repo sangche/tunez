@@ -50,6 +50,8 @@ defmodule TunezWeb.Router do
       live "/albums/:id/edit", Albums.FormLive, :edit
       live "/email-confirm", EmailConfirmLive
       live "/admin", MusicAdminLive
+
+      live "/invitations", UserInvitationsLive
     end
   end
 

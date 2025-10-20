@@ -7,6 +7,7 @@
 # General application configuration
 import Config
 
+config :cinder, default_theme: "modern"
 config :ash_graphql, authorize_update_destroy_with_error?: true
 
 config :mime,
