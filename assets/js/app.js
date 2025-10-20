@@ -35,6 +35,26 @@ topbar.config({ barColors: { 0: "#29d" }, shadowColor: "rgba(0, 0, 0, .3)" })
 window.addEventListener("phx:page-loading-start", _info => topbar.show(300))
 window.addEventListener("phx:page-loading-stop", _info => topbar.hide())
 
+window.addEventListener("phx:js-exec", info => {
+  console.log("info from server:", info.detail)
+  let to = info.detail.to
+  let attr = info.detail.attr
+
+  dom = document.querySelector(to)
+  console.log("dom:", dom)
+  if (dom) {
+    console.log("executing attr:", attr)
+    dom.addEventListener(attr, e => {
+      console.log("dispatched event:", attr, "on", to, "e:", e.target)
+      // dom.style.visibility = "hidden"
+      dom.style.display = "none"
+    })
+    dom.dispatchEvent(new Event(attr, { bubbles: true }))
+  } else {
+    console.log("no dom found for selector:", to)
+  }
+})
+
 // connect if there are any LiveViews on the page
 liveSocket.connect()
 
