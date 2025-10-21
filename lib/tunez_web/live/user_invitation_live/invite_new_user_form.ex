@@ -62,7 +62,7 @@ defmodule TunezWeb.UserInvitationsLive.InviteNewUserForm do
           </.simple_form>
         </.modal>
       </div>
-      <.flash kind={:info} flash={@flash} />
+      <%!-- <.flash kind={:info} flash={@flash} /> --%>
     </div>
     """
   end
@@ -92,8 +92,8 @@ defmodule TunezWeb.UserInvitationsLive.InviteNewUserForm do
         socket
         |> put_flash(:info, "Invitation sent successfully")
         # see assets/js/app.js
-        |> push_event("js-exec", %{to: "#invite-user-modal", attr: "data-cancel"})
-        # |> redirect(to: ~p"/")
+        # |> push_event("js-exec", %{to: "#invite-user-modal", attr: "data-cancel"})
+        |> redirect(to: ~p"/invitations")
         |> noreply()
 
       {:error, form} ->
